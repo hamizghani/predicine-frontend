@@ -20,8 +20,8 @@ import {
   Circle,
   Plus,
   Filter,
+  Download,
 } from "lucide-react";
-import dynamic from "next/dynamic";
 
 import data from "@/mockup/data.json"; // Assuming mock data is available here
 
@@ -44,15 +44,7 @@ interface Product {
   };
 }
 
-// Dynamically import the chart component, disabling SSR
-const DiseaseTrendChart = dynamic(
-  () => import("@/components/DiseaseTrendChart"),
-  {
-    ssr: false,
-  }
-);
-
-const Dashboard = () => {
+const AllProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -68,90 +60,56 @@ const Dashboard = () => {
 
   return (
     <div className="p-4 space-y-6 w-full">
-      <h1 className="font-medium text-xl">Overview</h1>
-
+      <h1 className="font-medium text-xl">All Products</h1>
       <div className="w-full px-5 bg-gray-200 h-[1.5px]"></div>
 
-      <div className="flex flex-col lg:flex-row w-full gap-10">
-        {/* Left Section */}
-        <div className="lg:w-2/3 w-full">
-          {/* Overview Cards */}
-          <div className="flex flex-wrap lg:flex-nowrap items-center justify-between mb-10 gap-4">
-            <OverviewCard title="Sales" value="IDR 832" trend="up" />
-            <div className="h-12 w-px bg-gray-300 hidden lg:block" />
-            <OverviewCard title="Quantity" value="413" />
-            <div className="h-12 w-px bg-gray-300 hidden lg:block" />
-            <OverviewCard title="Top Selling" value="Lansoprazole" />
-            <div className="h-12 w-px bg-gray-300 hidden lg:block" />
-            <OverviewCard
-              title="Overall Stock Status"
-              value="15%"
-              percentage={15}
-            />
-          </div>
-
-          {/* Restock Alerts and Medicine Recommendation */}
-          <div className="flex flex-col lg:flex-row bg-[#2A2E60] rounded-xl p-4 gap-6">
-            {/* Restock Alerts */}
-            <div className="lg:w-1/2 w-full text-white p-4">
-              <h2 className="text-lg font-semibold">Restock Alerts</h2>
-              <p className="text-sm text-gray-300">Stock running low</p>
-              <ul className="mt-4 space-y-4">
-                {data.restockAlerts.map((alert, idx) => (
-                  <li
-                    key={idx}
-                    className="flex justify-between items-center text-white"
-                  >
-                    <span className="text-sm sm:text-base">{alert.name}</span>
-                    <span className="bg-[#FF5A65] text-red-800 opacity-75 text-xs sm:text-sm px-2 py-1 font-medium rounded">
-                      {alert.quantity} items left
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Divider for mobile */}
-            <div className="w-full h-px bg-gray-200 my-4 lg:hidden"></div>
-
-            {/* Medicine Recommendation */}
-            <div className="lg:w-1/2 w-full text-white p-4">
-              <h2 className="text-lg font-semibold">Medicine Recommendation</h2>
-              <ul className="mt-4 space-y-4 overflow-x-auto">
-                {data.medicineRecommendations.map((med, idx) => (
-                  <li key={idx} className="text-white text-sm sm:text-base">
-                    {med}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Section (Disease Trend Chart) */}
-        <div className="w-full lg:w-1/3 rounded-lg shadow h-auto">
-          <div className="h-full">
-            <DiseaseTrendChart />
-          </div>
+      {/* Top Menu */}
+      {/* Restock Alerts */}
+      <div className="bg-[#2A2E60] rounded-xl p-4">
+        <div className="text-white p-4">
+          <h2 className="text-lg font-semibold">Restock Alerts</h2>
+          <p className="text-sm text-gray-300">Stock running low</p>
+          <ul className="mt-4 space-y-4">
+            {data.restockAlerts.map((alert, idx) => (
+              <li
+                key={idx}
+                className="flex justify-between items-center text-white"
+              >
+                <span className="text-sm sm:text-base">{alert.name}</span>
+                <span className="bg-[#FF5A65] text-red-800 opacity-75 text-xs sm:text-sm px-2 py-1 font-medium rounded">
+                  {alert.quantity} items left
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="flex items-center gap-2">
+          <Button variant="outline" className="flex items-center">
+            <Download className="w-4 h-4 mr-2" /> Download Report
+          </Button>
+        </div>
+        <div className="flex flex-wrap justify-center sm:justify-end items-center gap-2">
+          <Input placeholder="Search..." className="w-full sm:w-48" />
+          <Button className="w-full bg-[#ECF3FF] text-[#4857C3] sm:w-auto">
+            <Plus className="w-4 h-4 mr-2" /> Add Product
+          </Button>
+          <Button variant="outline" className="w-full sm:w-auto">
+            <Filter className="w-4 h-4 mr-2" /> Filters
+          </Button>
+        </div>
+      </div>
+
+      {/* Divider */}
+      <div className="w-full px-5 bg-gray-200 h-[1.5px]"></div>
+
       {/* Products Section */}
       <div className="space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <h2 className="text-lg font-semibold text-center sm:text-left">
-            Products
-          </h2>
-          <div className="flex flex-wrap justify-center sm:justify-end items-center gap-2">
-            <Input placeholder="Search..." className="w-full sm:w-48" />
-            <Button className="w-full bg-[#ECF3FF] text-[#4857C3] sm:w-auto">
-              <Plus className="w-4 h-4 mr-2" /> Add Product
-            </Button>
-            <Button variant="outline" className="w-full sm:w-auto">
-              <Filter className="w-4 h-4 mr-2" /> Filters
-            </Button>
-          </div>
-        </div>
+        <h2 className="text-lg font-semibold text-center sm:text-left">
+          Products
+        </h2>
 
         {/* Table Section */}
         <div className="overflow-x-auto">
@@ -252,43 +210,4 @@ const Dashboard = () => {
   );
 };
 
-interface OverviewCardProps {
-  title: string;
-  value: string | number;
-  trend?: "up" | "down";
-  percentage?: number;
-}
-const OverviewCard: React.FC<OverviewCardProps> = ({
-  title,
-  value,
-  trend,
-  percentage,
-}) => {
-  let trendIcon = null;
-  if (trend === "up") trendIcon = <TrendingUp className="text-green-500" />;
-  if (trend === "down") trendIcon = <TrendingDown className="text-red-500" />;
-
-  let percentageColor = "";
-  if (percentage !== undefined) {
-    if (percentage >= 70) percentageColor = "text-green-500";
-    else if (percentage >= 30) percentageColor = "text-yellow-500";
-    else percentageColor = "text-red-500";
-  }
-
-  return (
-    <div className="flex flex-col items-start text-center space-y-1">
-      <h3 className="text-sm text-gray-500">{title}</h3>
-      <p className="text-lg font-semibold flex items-center">
-        {value}{" "}
-        {trendIcon && <span className="ml-2 inline-block">{trendIcon}</span>}
-      </p>
-      {percentage !== undefined && (
-        <p className={`text-sm font-medium ${percentageColor}`}>
-          {percentage}% In-stock
-        </p>
-      )}
-    </div>
-  );
-};
-
-export default Dashboard;
+export default AllProducts;
