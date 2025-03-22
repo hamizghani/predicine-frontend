@@ -1,0 +1,104 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Torasic 10 mg",
+      "price": 117169,
+      "currency": "IDR",
+      "image": "https://d2qjkwm11akmwu.cloudfront.net/products/18252-1665791275.webp",
+      "description": "Obat pereda nyeri sedang hingga berat, biasanya digunakan setelah operasi atau prosedur medis.",
+      "stock": 50,
+      "category": "Painkiller"
+    },
+    {
+      "id": 2,
+      "name": "Celebrex 200 mg",
+      "price": 245955,
+      "currency": "IDR",
+      "image": "https://d2qjkwm11akmwu.cloudfront.net/products/474205_8-9-2022_9-49-43-1665787762.webp",
+      "description": "Obat untuk meredakan nyeri dan bengkak pada penyakit rematik, cedera, atau nyeri setelah operasi.",
+      "stock": 75,
+      "category": "Painkiller"
+    },
+    {
+      "id": 3,
+      "name": "Dexketoprofen 25 mg",
+      "price": 50000,
+      "currency": "IDR",
+      "image": "https://d2qjkwm11akmwu.cloudfront.net/products/521928_31-8-2022_13-28-23-1665791801.webp",
+      "description": "Obat untuk meredakan nyeri ringan hingga sedang, seperti nyeri otot atau sakit gigi.",
+      "stock": 100,
+      "category": "Painkiller"
+    },
+    {
+      "id": 4,
+      "name": "Amoxicillin 500 mg",
+      "price": 15000,
+      "currency": "IDR",
+      "image": "https://storage.googleapis.com/rxstorage/Product/Photos/farmaku_amoxicillin-500-mg-tablet-hexp-02_resize.jpg",
+      "description": "Antibiotik untuk mengobati infeksi bakteri, seperti infeksi saluran pernapasan atau infeksi kulit.",
+      "stock": 80,
+      "category": "Antibiotic"
+    },
+    {
+      "id": 5,
+      "name": "Ciprofloxacin 500 mg",
+      "price": 20000,
+      "currency": "IDR",
+      "image": "https://res-3.cloudinary.com/dk0z4ums3/image/upload/c_scale,h_500,w_500/v1/production/pharmacy/products/1660745667_5fb37adf41ab59059e868156",
+      "description": "Antibiotik untuk mengobati berbagai infeksi bakteri, termasuk infeksi saluran kemih dan infeksi kulit.",
+      "stock": 60,
+      "category": "Antibiotic"
+    },
+    {
+      "id": 6,
+      "name": "Azithromycin 500 mg",
+      "price": 30000,
+      "currency": "IDR",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS30JRJzkgZIoYzZY2lSJmj3K0MlQxi0ZlmwA&s",
+      "description": "Antibiotik untuk mengobati infeksi bakteri, seperti infeksi saluran pernapasan dan infeksi kulit.",
+      "stock": 90,
+      "category": "Antibiotic"
+    },
+    {
+      "id": 7,
+      "name": "Oseltamivir 75 mg",
+      "price": 50000,
+      "currency": "IDR",
+      "image": "https://d2qjkwm11akmwu.cloudfront.net/products/755740_29-8-2022_15-27-40-1665794307.webp",
+      "description": "Antivirus untuk mengobati dan mencegah infeksi virus influenza.",
+      "stock": 70,
+      "category": "Antiviral"
+    },
+    {
+      "id": 8,
+      "name": "Acyclovir 400 mg",
+      "price": 25000,
+      "currency": "IDR",
+      "image": "https://res-5.cloudinary.com/dk0z4ums3/image/upload/c_scale,h_500,w_500/v1/production/pharmacy/products/1641435312_acyclovir_5_krim_5_gram_inf",
+      "description": "Antivirus untuk mengobati infeksi virus herpes simplex dan herpes zoster.",
+      "stock": 85,
+      "category": "Antiviral"
+    },
+    {
+      "id": 9,
+      "name": "Metformin 500 mg",
+      "price": 14000,
+      "currency": "IDR",
+      "image": "https://s3-publishing-cmn-svc-prd.s3.ap-southeast-1.amazonaws.com/drugs/5_4p6ozT7iKjohaFdvG0F/original/4tstysy6jnklkp6lqtjbhmc4bs855mh2.png",
+      "description": "Obat untuk mengontrol kadar gula darah pada penderita diabetes tipe 2.",
+      "stock": 55,
+      "category": "Diabetes"
+    },
+    {
+      "id": 10,
+      "name": "Glibenclamide 5 mg",
+      "price": 12000,
+      "currency": "IDR",
+      "image": "https://res-5.cloudinary.com/dk0z4ums3/image/upload/c_scale,h_500,w_500/v1/production/pharmacy/products/1698722023_glibenclamide_5_mg_fm-removebg-preview",
+      "description": "Obat untuk menurunkan kadar gula darah pada penderita diabetes tipe 2 dengan meningkatkan produksi insulin.",
+      "stock": 65,
+      "category": "Diabetes"
+    }
+  ]
+}

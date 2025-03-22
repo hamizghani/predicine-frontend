@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import Navbar from "@/components/navbar";
+import Sidebar from "@/components/sidebar";
+import LayoutWrapper from "@/components/LayoutWrapper"; // New client-side component
 import "./globals.css";
 
 const poppins = Poppins({
@@ -20,7 +23,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable} antialiased`}>{children}</body>
+      <body className={`${poppins.variable} antialiased`}>
+        {/* Delegate rendering logic to a client-side component */}
+        <LayoutWrapper>{children}</LayoutWrapper>
+      </body>
     </html>
   );
 }
