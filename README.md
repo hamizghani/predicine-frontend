@@ -39,6 +39,7 @@ Predicine memiliki fitur utama yang terletak pada manajemen produk obat, predici
 
 ### Backend
 - IndexedDB
+- fastAPI
 
 ### Data Processing & Machine Learning
 - XGBoost
