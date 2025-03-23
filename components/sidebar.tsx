@@ -1,5 +1,5 @@
 "use client"; // Mark this as a client component
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -32,6 +32,16 @@ const Sidebar = () => {
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
+
+  const router = useRouter();
+
+  // Check if user is logged in when accessing the settings page
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    if (!isLoggedIn) {
+      router.push("/login");
+    }
+  }, [router]);
 
   //   // Save `isOpen` state to local storage when it changes
   //   useEffect(() => {

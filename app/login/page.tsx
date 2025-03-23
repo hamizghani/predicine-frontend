@@ -1,7 +1,32 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const router = useRouter();
+
+  // Demo credentials stored in environment variables
+  const demoUsername = process.env.NEXT_PUBLIC_USERNAME || "demoUser";
+  const demoPassword = process.env.NEXT_PUBLIC_PASSWORD || "demoPass";
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Validate credentials
+    if (username === demoUsername && password === demoPassword) {
+      // Save "logged in" state in localStorage
+      localStorage.setItem("isLoggedIn", "true");
+      router.push("/"); // Redirect to home or dashboard
+    } else {
+      setError("Invalid username or password");
+    }
+  };
+
   return (
     <div
       className="h-screen w-screen flex items-center justify-center px-2 bg-cover bg-center text-black"
@@ -26,11 +51,21 @@ export default function LoginPage() {
             Please enter your details
           </p>
         </div>
-        <form className="space-y-3 sm:space-y-4 w-full px-4 sm:px-8 flex flex-col items-center">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-3 sm:space-y-4 w-full px-4 sm:px-8 flex flex-col items-center"
+        >
+          {error && (
+            <p className="text-red-500 text-xs sm:text-sm font-medium">
+              {error}
+            </p>
+          )}
           <div className="w-full">
             <input
               type="text"
               placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className="w-full border-b-2 border-gray-500 focus:outline-none focus:border-[#898CDC] font-medium py-6 sm:py-8 text-gray-700 text-sm sm:text-base"
             />
           </div>
@@ -38,6 +73,8 @@ export default function LoginPage() {
             <input
               type="password"
               placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full border-b-2 border-gray-300 focus:outline-none focus:border-[#898CDC] py-6 sm:py-8 font-medium text-gray-700 text-sm sm:text-base"
             />
           </div>

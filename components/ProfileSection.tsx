@@ -1,13 +1,21 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaDownload } from "react-icons/fa";
 import { FiChevronDown, FiLogOut } from "react-icons/fi";
 
 const ProfileSection = () => {
+  const router = useRouter();
+
   const [periodOpen, setPeriodOpen] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState("Select Period"); // Default text
 
   const periods = ["Last 7 Days", "Last 30 Days", "Last 3 Months", "Last Year"];
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn"); // Clear login state
+    router.push("/login"); // Redirect to login page
+  };
 
   return (
     <div className="flex flex-col md:flex-row gap-6 p-6 bg-gray-100 min-h-screen">
@@ -17,23 +25,13 @@ const ProfileSection = () => {
 
         <div className="mt-4 space-y-3">
           <label className="block text-gray-600">Company Name</label>
-          <input
-            type="text"
-            className="w-full border rounded-lg px-4 py-2"
-          />
-        
+          <input type="text" className="w-full border rounded-lg px-4 py-2" />
 
           <label className="block text-gray-600">Email</label>
-          <input
-            type="email"
-            className="w-full border rounded-lg px-4 py-2"
-          />
+          <input type="email" className="w-full border rounded-lg px-4 py-2" />
 
           <label className="block text-gray-600">Address</label>
-          <input
-            type="text"
-            className="w-full border rounded-lg px-4 py-2"
-          />
+          <input type="text" className="w-full border rounded-lg px-4 py-2" />
         </div>
 
         {/* Download Report */}
@@ -46,33 +44,35 @@ const ProfileSection = () => {
               <span>Download Transaction Report</span>
             </div>
             <button
-                onClick={() => setPeriodOpen(!periodOpen)}
-                className="flex items-center px-4 py-2 bg-gray-200 rounded"
-              >
-                {selectedPeriod} {/* Now displaying selected period */}
-                <FiChevronDown
-                  className={`ml-2 transition-transform ${periodOpen ? "rotate-180" : ""}`}
-                />
+              onClick={() => setPeriodOpen(!periodOpen)}
+              className="flex items-center px-4 py-2 bg-gray-200 rounded"
+            >
+              {selectedPeriod} {/* Now displaying selected period */}
+              <FiChevronDown
+                className={`ml-2 transition-transform ${
+                  periodOpen ? "rotate-180" : ""
+                }`}
+              />
             </button>
           </div>
 
-            {/* Dropdown */}
-            {periodOpen && (
-        <div className="absolute right-0 mt-2 border rounded-lg shadow-md bg-white w-48">
-          {periods.map((period) => (
-            <div
-              key={period}
-              onClick={() => {
-                setSelectedPeriod(period); // Update selected text
-                setPeriodOpen(false); // Close dropdown after selection
-              }}
-              className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-            >
-              {period}
+          {/* Dropdown */}
+          {periodOpen && (
+            <div className="absolute right-0 mt-2 border rounded-lg shadow-md bg-white w-48">
+              {periods.map((period) => (
+                <div
+                  key={period}
+                  onClick={() => {
+                    setSelectedPeriod(period); // Update selected text
+                    setPeriodOpen(false); // Close dropdown after selection
+                  }}
+                  className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                >
+                  {period}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      )}
+          )}
         </div>
       </div>
 
@@ -82,26 +82,27 @@ const ProfileSection = () => {
 
         <div className="mt-4 space-y-3">
           <label className="block text-gray-600">Username</label>
-          <input
-            type="text"
-            className="w-full border rounded-lg px-4 py-2"
-          />
+          <input type="text" className="w-full border rounded-lg px-4 py-2" />
           <label className="block text-gray-600">Email</label>
-          <input
-            type="email"
-            className="w-full border rounded-lg px-4 py-2"
-          />
-          
-          <a href="#" className="text-blue-500 text-sm">Change password</a>
+          <input type="email" className="w-full border rounded-lg px-4 py-2" />
+
+          <a href="#" className="text-blue-500 text-sm">
+            Change password
+          </a>
         </div>
 
         {/* Buttons */}
         <div className="mt-6 flex gap-4">
-          <button className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg">
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg"
+          >
             <FiLogOut />
             Logout
           </button>
-          <button className="px-4 py-2 bg-[#6A5CED] text-white rounded-lg">Save</button>
+          <button className="px-4 py-2 bg-[#6A5CED] text-white rounded-lg">
+            Save
+          </button>
         </div>
       </div>
     </div>
