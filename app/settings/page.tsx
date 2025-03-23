@@ -20,7 +20,7 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="h-screen w-screen flex items-center justify-center">
+    <div className="h-screen w-full flex items-center justify-center">
       <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg w-80 flex flex-col items-center max-w-md sm:w-4/5">
         <h1 className="text-lg sm:text-2xl font-medium text-center mb-4">
           Settings
