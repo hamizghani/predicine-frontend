@@ -1,6 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { Separator } from "@/components/ui/separator";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -11,16 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Progress } from "@/components/ui/progress";
-import {
-  TrendingUp,
-  TrendingDown,
-  ShoppingCart,
-  Star,
-  Circle,
-  Plus,
-  Filter,
-} from "lucide-react";
+import { TrendingUp, TrendingDown, Plus, Filter } from "lucide-react";
 import dynamic from "next/dynamic";
 
 import data from "@/mockup/data.json"; // Assuming mock data is available here
@@ -54,7 +44,7 @@ const DiseaseTrendChart = dynamic(
 );
 
 const Dashboard = () => {
-  const {items: products} = useIndexedDB<Product>('products');
+  const { items: products } = useIndexedDB<Product>("products");
   // const [products, setProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;

@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import Navbar from "@/components/navbar";
-import Sidebar from "@/components/sidebar";
 import LayoutWrapper from "@/components/LayoutWrapper"; // New client-side component
 import "./globals.css";
 

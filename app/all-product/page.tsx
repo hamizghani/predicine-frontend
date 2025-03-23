@@ -1,6 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { Separator } from "@/components/ui/separator";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -11,26 +10,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Progress } from "@/components/ui/progress";
-import {
-  TrendingUp,
-  TrendingDown,
-  ShoppingCart,
-  Star,
-  Circle,
-  Plus,
-  Filter,
-  Download,
-} from "lucide-react";
+import { Plus, Filter, Download } from "lucide-react";
 
 import data from "@/mockup/data.json"; // Assuming mock data is available here
 import RecommendedProductSection from "@/components/RecommendedProductSection";
 import { useIndexedDB } from "@/hooks/useIndexedDB";
 import { Product } from "@/types/product";
 
-
 const AllProducts = () => {
-  const {items: products} = useIndexedDB<Product>('products');
+  const { items: products } = useIndexedDB<Product>("products");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -188,11 +176,10 @@ const AllProducts = () => {
         </div>
       </div>
 
-
       {/* Divider */}
       <div className="w-full px-5 bg-gray-200 h-[1.5px]"></div>
 
-      <RecommendedProductSection/>
+      <RecommendedProductSection />
     </div>
   );
 };
