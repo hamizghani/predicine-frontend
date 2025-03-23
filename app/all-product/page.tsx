@@ -24,34 +24,15 @@ import {
 } from "lucide-react";
 
 import data from "@/mockup/data.json"; // Assuming mock data is available here
+import RecommendedProductSection from "@/components/RecommendedProductSection";
+import { useIndexedDB } from "@/hooks/useIndexedDB";
+import { Product } from "@/types/product";
 
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  currency: string;
-  image: string;
-  description: string;
-  stock: number;
-  sold: number;
-  category: string;
-  prediction: {
-    restockDate: string;
-    availability: {
-      percentage: number;
-      status: string;
-    };
-  };
-}
 
 const AllProducts = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const {items: products} = useIndexedDB<Product>('products');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
-
-  useEffect(() => {
-    setProducts(data.products);
-  }, []);
 
   const currentItems = products.slice(
     (currentPage - 1) * itemsPerPage,
@@ -206,6 +187,12 @@ const AllProducts = () => {
           </Button>
         </div>
       </div>
+
+
+      {/* Divider */}
+      <div className="w-full px-5 bg-gray-200 h-[1.5px]"></div>
+
+      <RecommendedProductSection/>
     </div>
   );
 };
