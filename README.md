@@ -31,6 +31,12 @@
    npm run dev
    ```
 
+5. Setting up username dan password
+   ```sh
+   username : demoUser
+   password : demoPass
+   ```
+
 ## ⚡ Teknologi yang Digunakan
 ### 🎨 Frontend
 - 🏗 Next.js
