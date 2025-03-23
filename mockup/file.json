@@ -99,6 +99,16 @@
       "description": "Obat untuk menurunkan kadar gula darah pada penderita diabetes tipe 2 dengan meningkatkan produksi insulin.",
       "stock": 65,
       "category": "Diabetes"
+    },
+    {
+      "id": 11,
+      "name": "Paracetamol",
+      "price": 31111,
+      "currency": "IDR",
+      "image": "https://d2qjkwm11akmwu.cloudfront.net/products/18252-1665791275.webp",
+      "description": "Obat pereda nyeri sedang hingga berat, biasanya digunakan setelah operasi atau prosedur medis.",
+      "stock": 50,
+      "category": "Painkiller"
     }
   ]
 }
