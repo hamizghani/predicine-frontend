@@ -24,6 +24,7 @@ import {
 import dynamic from "next/dynamic";
 
 import data from "@/mockup/data.json"; // Assuming mock data is available here
+import { useIndexedDB } from "@/hooks/useIndexedDB";
 
 interface Product {
   id: number;
@@ -53,13 +54,14 @@ const DiseaseTrendChart = dynamic(
 );
 
 const Dashboard = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const {items: products} = useIndexedDB<Product>('products');
+  // const [products, setProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  useEffect(() => {
-    setProducts(data.products);
-  }, []);
+  // useEffect(() => {
+  //   setProducts(data.products);
+  // }, []);
 
   const currentItems = products.slice(
     (currentPage - 1) * itemsPerPage,
