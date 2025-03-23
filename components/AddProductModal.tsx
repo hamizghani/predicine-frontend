@@ -21,6 +21,12 @@ function getRandomItem<T>(items: T[]): T | undefined {
   return items[randomIndex];
 }
 
+interface PredictionResponse {
+  data: {
+    predicted_stockout_days: number;
+  };
+}
+
 export default function AddProductModal({
   medicine,
   triggerElement,
@@ -28,8 +34,7 @@ export default function AddProductModal({
   medicine: Medicine;
   triggerElement: React.ReactNode;
 }) {
-  const { items: creds } = useIndexedDB('account');
-  const { items: products, addItem: addProduct, updateItem: updateProduct } = useIndexedDB<Product>("products");
+  const { addItem: addProduct } = useIndexedDB<Product>("products");
   const [qty, setQty] = useState(1);
   const [open, setOpen] = useState(false);
   const zones = ["Jakarta Selatan", "Jakarta Timur", "Depok", "Bekasi", "Tangerang"]
@@ -65,7 +70,7 @@ export default function AddProductModal({
       })
     });
     const dataJson = await res.json();
-    const predictedDays = Math.floor((dataJson as any).data.predicted_stockout_days);
+    const predictedDays = Math.floor((dataJson as PredictionResponse).data.predicted_stockout_days);
     const restockDate = new Date();
     restockDate.setDate(restockDate.getDate() + predictedDays);
 
