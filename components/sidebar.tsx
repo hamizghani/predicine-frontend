@@ -7,7 +7,6 @@ import {
   LayoutDashboard,
   Package,
   BarChart3,
-  Bell,
   User,
   Search,
   Settings,
@@ -54,11 +53,6 @@ const Sidebar = () => {
       label: "Analytics",
       icon: <BarChart3 className="w-5 h-5" />,
       path: "/analytics",
-    },
-    {
-      label: "Notification",
-      icon: <Bell className="w-5 h-5" />,
-      path: "/notification",
     },
     {
       label: "Profile Data",
@@ -180,7 +174,7 @@ const Sidebar = () => {
         </div>
         <div className="flex-1 mt-4">
           <nav className="space-y-1">
-            {menuItems.slice(0, 4).map((item) => (
+            {menuItems.slice(0, 3).map((item) => (
               <MenuItem
                 key={item.path}
                 isOpen={isOpen}
