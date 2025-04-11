@@ -6,7 +6,10 @@ import Link from "next/link";
 
 const notifications = [
   { id: 1, message: "🔔 New product added!" },
-  { id: 2, message: "📢 Metformin stock is almost out. Don't forget to restock!" },
+  {
+    id: 2,
+    message: "📢 Metformin stock is almost out. Don't forget to restock!",
+  },
   { id: 3, message: "📦 Inventory update completed." },
 ];
 
@@ -38,12 +41,12 @@ const Navbar = () => {
   return (
     <div className="hidden sm:flex items-center justify-between px-4 py-3 bg-[#FAFAFA] shadow-sm">
       {/* Left Section: Back Button and Dynamic Page Title */}
-      <div className="flex items-center space-x-2 text-[#383E49]">
+      <div className="flex items-center space-x-2 text-[#383E49] ">
         {/* Back Button: Show only if not on the home page */}
         {pathname !== "/" && (
           <button
             onClick={() => router.push("/")}
-            className="p-2 rounded-full hover:bg-gray-200 transition-colors"
+            className="p-2 rounded-full hover:bg-gray-200 transition-colors cursor-pointer"
           >
             <ArrowLeft className="w-5 h-5 text-[#383E49]" />
           </button>
@@ -54,8 +57,7 @@ const Navbar = () => {
 
       {/* Right Section: Search Bar and Settings Button */}
       <div className="flex items-center space-x-4">
-        {/* Search Bar */}
-        <div className="relative">
+        {/* <div className="relative">
           <input
             type="text"
             placeholder="Search..."
@@ -63,7 +65,6 @@ const Navbar = () => {
           />
         </div>
 
-        {/* Notification Button */}
         <div className="relative">
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -72,23 +73,24 @@ const Navbar = () => {
             <Bell className="w-5 h-5 text-[#383E49]" />
           </button>
 
-          {/* Notification Dropdown */}
           {isOpen && (
             <div className="absolute right-0 mt-2 w-64 bg-white shadow-lg rounded-lg p-3 border border-gray-200 z-50">
-              <p className="text-sm font-semibold text-gray-700">Notifications</p>
+              <p className="text-sm font-semibold text-gray-700">
+                Notifications
+              </p>
               <div className="mt-2 space-y-2">
                 {notifications.map((notification) => (
-                  <div key={notification.id} className="p-2 bg-gray-100 rounded-md">
+                  <div
+                    key={notification.id}
+                    className="p-2 bg-gray-100 rounded-md"
+                  >
                     {notification.message}
                   </div>
                 ))}
               </div>
             </div>
           )}
-        </div>
-
-        
-
+        </div> */}
 
         {/* Settings Button */}
         <Link
