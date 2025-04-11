@@ -15,6 +15,18 @@ import { useState } from "react";
 import { Product } from "@/types/product";
 import { DialogClose } from "@radix-ui/react-dialog";
 
+function getRandomItem<T>(items: T[]): T | undefined {
+  if (items.length === 0) return undefined;
+  const randomIndex = Math.floor(Math.random() * items.length);
+  return items[randomIndex];
+}
+
+interface PredictionResponse {
+  data: {
+    predicted_stockout_days: number;
+  };
+}
+
 export default function AddProductModal({
   medicine,
   triggerElement,
@@ -25,9 +37,9 @@ export default function AddProductModal({
   const { addItem: addProduct } = useIndexedDB<Product>("products");
   const [qty, setQty] = useState(1);
   const [open, setOpen] = useState(false);
-
+  const zones = ["Jakarta Selatan", "Jakarta Timur", "Depok", "Bekasi", "Tangerang"]
   const createHandler = async () => {
-    await addProduct({
+    const prod = {
       ...medicine,
       sold: Math.floor(Math.random() * 200),
       stock: qty,
@@ -38,6 +50,39 @@ export default function AddProductModal({
           status: "In stock",
         },
       },
+    }
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/inventory/predict`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        predictionInput: {
+          user: "232321",
+          user_category: getRandomItem(['Hospital', 'Apotics']),
+          zone: getRandomItem(zones),
+          medicine_name: medicine.name,
+          stock: prod.stock,
+          record_timestamp: new Date().toLocaleDateString(),
+          avg_visitor_weekly: Math.round(200+Math.random()*300),
+          price: prod.price
+        }
+      })
+    });
+    const dataJson = await res.json();
+    const predictedDays = Math.floor((dataJson as PredictionResponse).data.predicted_stockout_days);
+    const restockDate = new Date();
+    restockDate.setDate(restockDate.getDate() + predictedDays);
+
+    await addProduct({
+      ...prod,
+      prediction: {
+        restockDate: restockDate.toLocaleDateString(), // or just `restockDate` if you expect a Date object
+        availability: {
+          percentage: Math.floor(Math.random() * 100),
+          status: "In stock",
+        },
+      }
     });
   };
 

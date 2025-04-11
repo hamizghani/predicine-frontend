@@ -1,14 +1,7 @@
+import { Medicine } from "./medicine";
 
-export interface Product {
-  id: number;
-  name: string;
-  price: number;
-  currency: string;
-  image: string;
-  description: string;
-  stock: number;
+export interface Product extends Medicine {
   sold: number;
-  category: string;
   prediction: {
     restockDate: string;
     availability: {
