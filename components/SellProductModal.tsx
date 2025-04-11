@@ -13,6 +13,9 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import { ShoppingCart } from "lucide-react";
 import { Product } from "@/types/product";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useProductRefresh } from "@/context/ProductRefreshContext";
 
 export default function SellProductModal({
   product,
@@ -23,26 +26,36 @@ export default function SellProductModal({
 }) {
   const [amount, setAmount] = useState<number>(1);
   const [open, setOpen] = useState(false);
-
-  // Placeholder: replace with actual user stock lookup
-  const currentStock = 10; // user.stock[product.medicineId]
+  const { refetch } = useProductRefresh();
+  const currentStock = product.stock;
 
   const handleSell = async () => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      toast.error("You're not logged in.");
+      return;
+    }
+
     try {
-      await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/products/${product.id}/sell`,
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/product/sell`,
         {
-          method: "POST",
+          id: product.id,
+          amount,
+        },
+        {
           headers: {
-            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({
-            amount,
-          }),
         }
       );
+
+      toast.success("Product sold successfully!");
+      refetch();
+      setOpen(false);
     } catch (error) {
       console.error("Failed to sell product:", error);
+      toast.error("Failed to sell product.");
     }
   };
 

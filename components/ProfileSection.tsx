@@ -15,8 +15,9 @@ const ProfileSection = () => {
   const periods = ["Last 7 Days", "Last 30 Days", "Last 3 Months", "Last Year"];
 
   const handleLogout = () => {
-    setAuth({ authenticated: false });
-    router.push("/login");
+    localStorage.removeItem("accessToken"); // Remove token
+    setAuth({ authenticated: false }); //  Reset context
+    router.push("/login"); //  Redirect (optional)
   };
 
   return (

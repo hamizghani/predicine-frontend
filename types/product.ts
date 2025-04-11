@@ -1,5 +1,4 @@
-
-export interface TMedicine {
+export interface Medicine {
   id: number;
   name: string;
   price: number;
@@ -10,7 +9,7 @@ export interface TMedicine {
   category: string;
 }
 
-export interface Product extends TMedicine {
+export interface Product extends Medicine {
   sold: number;
   prediction: {
     restockDate: string;

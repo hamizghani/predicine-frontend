@@ -5,33 +5,39 @@ import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { AuthContext } from "@/context/AuthContext";
+import toast from "react-hot-toast";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
-  const {auth, setAuth} = useContext(AuthContext)
+  const { auth, setAuth } = useContext(AuthContext);
 
-  useEffect(()=> {
-    if (auth.authenticated) router.push('/')
-  }, [auth.authenticated])
+  useEffect(() => {
+    if (auth.authenticated) router.push("/");
+  }, [auth.authenticated]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     axios({
       url: `${process.env.NEXT_PUBLIC_API_URL}/api/user/login`,
-      method: 'POST',
+      method: "POST",
       data: {
         username,
-        password
-      }
-    }).then((resp) => {
-      setAuth({accessToken: resp.data.accessToken, authenticated: true});
-    }).catch((error) => {
-      console.log(error)
+        password,
+      },
     })
+      .then((resp) => {
+        setAuth({ accessToken: resp.data.accessToken, authenticated: true });
+        localStorage.setItem("accessToken", resp.data.accessToken);
+        toast.success("Logged in successfully!");
+      })
+      .catch((error) => {
+        toast.error("Login failed");
+        setError("Login failed"); // optional, for inline rendering
+      });
   };
 
   return (

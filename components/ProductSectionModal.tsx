@@ -1,5 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -10,13 +12,28 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Plus, PackageX, PencilLine, ShoppingCart, Trash2 } from "lucide-react";
+import {
+  Plus,
+  PackageX,
+  PencilLine,
+  ShoppingCart,
+  Trash2,
+  ChevronDown,
+  ChevronUp,
+  Package,
+} from "lucide-react";
 
-import { useIndexedDB } from "@/hooks/UseIndexedDB";
 import DeleteProductModal from "@/components/DeleteProductModal";
 import EditProductModal from "./EditProductModal";
 import SellProductModal from "./SellProductModal";
 import GeneralAddProductModal from "./GeneralAddProductModal";
+import { useProductRefresh } from "@/context/ProductRefreshContext";
+
+interface StockBatch {
+  id: number;
+  expirationDate: Date;
+  amount: number;
+}
 
 interface Product {
   id: number;
@@ -25,6 +42,7 @@ interface Product {
   currency: string;
   image: string;
   description: string;
+  brief: string;
   stock: number;
   sold: number;
   category: string;
@@ -35,20 +53,66 @@ interface Product {
       status: string;
     };
   };
+  batches: StockBatch[];
 }
-const ProductSectionModal = () => {
+
+const ProductSectionModal = ({ userPrice }: { userPrice: number[] }) => {
   const [editedPrices, setEditedPrices] = useState<{ [key: number]: number }>(
     {}
   );
   const [editableIndex, setEditableIndex] = useState<number | null>(null);
-  const { items: products } = useIndexedDB<Product>("products");
-  // const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+  const { trigger } = useProductRefresh();
 
-  // useEffect(() => {
-  //   setProducts(data.products);
-  // }, []);
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) return;
+
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/product/mine`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const formatted: Product[] = res.data.stocks.map((stock: any) => ({
+          id: stock.medicine.id,
+          name: stock.medicine.name,
+          description: stock.medicine.description,
+          brief: stock.medicine.brief,
+          image: stock.medicine.imageUrl,
+          currency: "IDR",
+          price: userPrice[stock.medicine.id],
+          category: "",
+          stock: stock.total,
+          sold: stock.sold,
+          batches: stock.batches ?? [],
+          prediction: {
+            restockDate: "Unknown",
+            availability: {
+              percentage: Math.round(
+                (stock.total / (stock.total + stock.sold || 1)) * 100
+              ),
+              status: "Unknown",
+            },
+          },
+        }));
+
+        setProducts(formatted);
+      } catch (err) {
+        console.error("Failed to fetch user products", err);
+      }
+    };
+
+    fetchProducts();
+  }, [trigger, userPrice]);
 
   const currentItems = products.slice(
     (currentPage - 1) * itemsPerPage,
@@ -58,7 +122,8 @@ const ProductSectionModal = () => {
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <h2 className="text-lg font-semibold text-center sm:text-left">
+        <h2 className="text-lg flex gap-2 justify-center font-semibold text-center sm:text-left">
+          <Package />
           Products
         </h2>
         <div className="flex flex-wrap justify-center sm:justify-end items-center gap-2">
@@ -73,7 +138,6 @@ const ProductSectionModal = () => {
         </div>
       </div>
 
-      {/* Table Section */}
       <div className="overflow-x-auto w-full">
         <Table className="min-w-[800px] w-full">
           <TableHeader>
@@ -106,139 +170,160 @@ const ProductSectionModal = () => {
               </TableRow>
             ) : (
               currentItems.map((product, idx) => (
-                <TableRow key={idx}>
-                  {/* Product Info */}
-                  <TableCell className="pr-4">
-                    <div className="flex max-md:items-center space-x-4">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="w-12 h-12 object-cover rounded-md flex-shrink-0"
-                      />
-                      <div className="flex  h-full flex-col overflow-hidden max-w-[240px]">
-                        <p className="font-medium text-sm sm:text-base truncate">
-                          {product.name}
-                        </p>
-                        <p className="hidden md:block text-sm text-gray-500 whitespace-normal break-words">
-                          {product.description}
-                        </p>
+                <React.Fragment key={idx}>
+                  <TableRow>
+                    <TableCell className="pr-4">
+                      <div className="flex max-md:items-center space-x-4">
+                        <img
+                          src={product.image}
+                          alt={product.name}
+                          className="w-12 h-12 object-cover rounded-md flex-shrink-0"
+                        />
+                        <div className="flex h-full flex-col overflow-hidden max-w-[240px]">
+                          <p className="font-medium text-sm sm:text-base truncate">
+                            {product.name}
+                          </p>
+                          <p className="hidden md:block text-sm text-gray-500 whitespace-normal break-words truncate">
+                            {product.description}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  </TableCell>
-
-                  {/* Editable Price */}
-                  <TableCell>
-                    {editableIndex === idx ? (
-                      <input
-                        type="number"
-                        className="w-24 px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-[#6B6EAC]"
-                        value={editedPrices[idx] ?? product.price ?? 0}
-                        onChange={(e) =>
-                          setEditedPrices((prev) => ({
-                            ...prev,
-                            [idx]: Number(e.target.value),
-                          }))
-                        }
-                        onBlur={() => setEditableIndex(null)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            e.preventDefault();
-                            setEditableIndex(null);
-                          }
-                        }}
-                        autoFocus
-                      />
-                    ) : (
+                    </TableCell>
+                    <TableCell>
                       <div className="flex items-center justify-center text-center w-24">
-                        <span className="font-semibold"> IDR&nbsp;</span>{" "}
+                        <span className="font-semibold">IDR&nbsp;</span>
                         {product.price ?? 0}
                       </div>
-                    )}
-                  </TableCell>
-
-                  {/* Quantity */}
-                  <TableCell>{product.stock} items</TableCell>
-
-                  {/* Sold */}
-                  <TableCell>{product.sold} this month</TableCell>
-
-                  {/* Prediction */}
-                  <TableCell>{product.prediction.restockDate}</TableCell>
-
-                  {/* Availability Bar */}
-                  <TableCell>
-                    <div className="flex items-center space-x-2">
-                      <div className="relative w-16 sm:w-24 h-3 bg-gray-300 rounded-full overflow-hidden">
-                        <div
-                          className={`absolute top-0 left-0 h-full rounded-full ${
+                    </TableCell>
+                    <TableCell>{product.stock} items</TableCell>
+                    <TableCell>{product.sold} product(s)</TableCell>
+                    <TableCell>{product.prediction.restockDate}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center space-x-2">
+                        <div className="relative w-16 sm:w-24 h-3 bg-gray-300 rounded-full overflow-hidden">
+                          <div
+                            className={`absolute top-0 left-0 h-full rounded-full ${
+                              product.prediction.availability.percentage > 70
+                                ? "bg-green-500"
+                                : product.prediction.availability.percentage >
+                                  30
+                                ? "bg-yellow-500"
+                                : "bg-red-500"
+                            }`}
+                            style={{
+                              width: `${product.prediction.availability.percentage}%`,
+                            }}
+                          ></div>
+                        </div>
+                        <span
+                          className={`text-sm font-semibold ${
                             product.prediction.availability.percentage > 70
-                              ? "bg-green-500"
+                              ? "text-green-600"
                               : product.prediction.availability.percentage > 30
-                              ? "bg-yellow-500"
-                              : "bg-red-500"
+                              ? "text-yellow-600"
+                              : "text-red-600"
                           }`}
-                          style={{
-                            width: `${product.prediction.availability.percentage}%`,
-                          }}
-                        ></div>
+                        >
+                          {product.prediction.availability.percentage}%
+                        </span>
                       </div>
-                      <span
-                        className={`text-sm font-semibold ${
-                          product.prediction.availability.percentage > 70
-                            ? "text-green-600"
-                            : product.prediction.availability.percentage > 30
-                            ? "text-yellow-600"
-                            : "text-red-600"
-                        }`}
-                      >
-                        {product.prediction.availability.percentage}%
-                      </span>
-                    </div>
-                  </TableCell>
-
-                  {/* Actions */}
-                  <TableCell className="text-center">
-                    <div className="flex flex-col items-center justify-center gap-2">
-                      <SellProductModal
-                        product={product}
-                        triggerElement={
-                          <button className="cursor-pointer flex items-center justify-center gap-2 w-20 sm:w-24 text-sm px-1 sm:px-3 py-1 sm:py-2 bg-[#6B6EAC] text-white rounded hover:bg-[#5a5db2] transition">
-                            <ShoppingCart className="w-4 h-4" />
-                            Sell
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <div className="flex flex-col items-center justify-center gap-2">
+                        <SellProductModal
+                          product={product}
+                          triggerElement={
+                            <Button className="cursor-pointer border-2 flex items-center justify-center gap-2 w-20 sm:w-24 text-sm px-1 sm:px-3 py-1 sm:py-2 bg-[#ECF3FF] text-[#4857C3]">
+                              <ShoppingCart className="w-4 h-4" />
+                              Sell
+                            </Button>
+                          }
+                        />
+                        <EditProductModal
+                          product={product}
+                          triggerElement={
+                            <Button className="cursor-pointer border-2 flex items-center justify-center gap-2 w-20 sm:w-24 text-sm px-1 sm:px-3 py-1 sm:py-2 bg-[#ECF3FF] text-[#4857C3]">
+                              <PencilLine className="w-4 h-4" />
+                              Edit
+                            </Button>
+                          }
+                        />
+                        <DeleteProductModal
+                          product={product}
+                          triggerElement={
+                            <button className="cursor-pointer flex items-center justify-center gap-2 w-20 sm:w-24 text-sm px-1 sm:px-3 py-1 sm:py-2 bg-red-500 text-white rounded hover:bg-red-600 transition">
+                              <Trash2 className="w-4 h-4" />
+                              Delete
+                            </button>
+                          }
+                        />
+                        {product.batches.length > 0 && (
+                          <button
+                            className="flex items-center gap-1 text-sm text-[#4857C3] mt-1 hover:underline"
+                            onClick={() =>
+                              setExpandedIndex(
+                                expandedIndex === idx ? null : idx
+                              )
+                            }
+                          >
+                            {expandedIndex === idx ? (
+                              <>
+                                Hide Batches <ChevronUp className="w-4 h-4" />
+                              </>
+                            ) : (
+                              <>
+                                Show Batches <ChevronDown className="w-4 h-4" />
+                              </>
+                            )}
                           </button>
-                        }
-                      />
-                      <EditProductModal
-                        product={product}
-                        triggerElement={
-                          //   <button className="cursor-pointer flex items-center justify-center gap-2 w-20 sm:w-24 text-sm px-1 sm:px-3 py-1 sm:py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
-                          //     Edit
-                          //   </button>
-                          <Button className="cursor-pointer border-2 flex items-center justify-center gap-2 w-20 sm:w-24 text-sm px-1 sm:px-3 py-1 sm:py-2 bg-[#ECF3FF] text-[#4857C3]">
-                            <PencilLine className="w-4 h-4" />
-                            Edit
-                          </Button>
-                        }
-                      />
-                      <DeleteProductModal
-                        product={product}
-                        triggerElement={
-                          <button className="cursor-pointer flex items-center justify-center gap-2 w-20 sm:w-24 text-sm px-1 sm:px-3 py-1 sm:py-2 bg-red-500 text-white rounded hover:bg-red-600 transition">
-                            <Trash2 className="w-4 h-4" />
-                            Delete
-                          </button>
-                        }
-                      />
-                    </div>
-                  </TableCell>
-                </TableRow>
+                        )}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                  {expandedIndex === idx && (
+                    <TableRow>
+                      <TableCell colSpan={7} className="bg-gray-50 py-4">
+                        <div className="space-y-3">
+                          <p className="font-medium text-gray-700">
+                            <strong>Batches</strong>
+                          </p>
+                          <div className="space-y-2">
+                            {product.batches.map((batch) => (
+                              <div
+                                key={batch.id}
+                                className="grid grid-cols-1 sm:grid-cols-3 gap-2 items-center text-sm text-gray-700 border-b pb-2"
+                              >
+                                <span>
+                                  <strong>Expiration:</strong>{" "}
+                                  {new Date(
+                                    batch.expirationDate
+                                  ).toLocaleDateString()}
+                                </span>
+                                <span>
+                                  <strong>Amount:</strong> {batch.amount} pcs
+                                </span>
+                                <div className="text-right sm:text-left">
+                                  <button
+                                    className="text-xs px-3 py-1 bg-blue-100 text-blue-700 font-medium rounded hover:bg-blue-200 transition"
+                                    // onClick={() => handleEditBatch(batch)}
+                                  >
+                                    Edit
+                                  </button>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </React.Fragment>
               ))
             )}
           </TableBody>
         </Table>
       </div>
 
-      {/* Pagination Section */}
       <div className="flex flex-col sm:flex-row justify-between items-center mt-4 gap-4">
         <Button
           variant="outline"

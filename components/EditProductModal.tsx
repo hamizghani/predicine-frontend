@@ -12,7 +12,10 @@ import { Label } from "@/components/ui/label";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { PencilLine } from "lucide-react";
 import { Product } from "@/types/product";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useProductRefresh } from "@/context/ProductRefreshContext";
 
 export default function EditProductModal({
   product,
@@ -24,24 +27,37 @@ export default function EditProductModal({
   const [stock, setStock] = useState<number>(product.stock);
   const [price, setPrice] = useState<number>(product.price);
   const [open, setOpen] = useState(false);
+  const { refetch } = useProductRefresh();
+
+  useEffect(() => {
+    setPrice(product.price);
+  }, [product.price]);
 
   const handleEdit = async () => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      toast.error("Not authenticated");
+      return;
+    }
+
     try {
-      await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/products/${product.id}`,
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/user/updatePrice`,
         {
-          method: "PUT",
+          id: product.id, // from props
+          price: price, // local state
+        },
+        {
           headers: {
-            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({
-            stock,
-            price,
-          }),
         }
       );
-    } catch (error) {
-      console.error("Failed to edit product:", error);
+      refetch();
+      toast.success("Price updated!");
+    } catch (err) {
+      console.error("Error updating price:", err);
+      toast.error("Failed to update price");
     }
   };
 

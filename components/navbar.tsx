@@ -1,24 +1,38 @@
-"use client"; // Mark this as a client component
-import { useState } from "react";
+"use client";
+import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Settings, ArrowLeft, Bell } from "lucide-react";
+import { Settings, ArrowLeft, Bell, CircleUserRound } from "lucide-react";
 import Link from "next/link";
-
-const notifications = [
-  { id: 1, message: "🔔 New product added!" },
-  {
-    id: 2,
-    message: "📢 Metformin stock is almost out. Don't forget to restock!",
-  },
-  { id: 3, message: "📦 Inventory update completed." },
-];
+import axios from "axios";
 
 const Navbar = () => {
-  const pathname = usePathname(); // Get the current pathname
-  const router = useRouter(); // Router for navigation
-  const [isOpen, setIsOpen] = useState(false); // State to control dropdown
+  const pathname = usePathname();
+  const router = useRouter();
+  const [userName, setUserName] = useState("User"); // Default fallback
 
-  // Map pathnames to their respective titles
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) return;
+
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/user/self`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setUserName(res.data.user.username);
+      } catch (error) {
+        console.error("Failed to fetch user info:", error);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
   const getPageTitle = () => {
     switch (pathname) {
       case "/":
@@ -34,15 +48,14 @@ const Navbar = () => {
       case "/settings":
         return "Settings";
       default:
-        return "Page"; // Default title for unknown paths
+        return "Page";
     }
   };
 
   return (
     <div className="hidden sm:flex items-center justify-between px-4 py-3 bg-[#FAFAFA] shadow-sm">
-      {/* Left Section: Back Button and Dynamic Page Title */}
-      <div className="flex items-center space-x-2 text-[#383E49] ">
-        {/* Back Button: Show only if not on the home page */}
+      {/* Left: Back Button and Title */}
+      <div className="flex items-center space-x-2 text-[#383E49]">
         {pathname !== "/" && (
           <button
             onClick={() => router.push("/")}
@@ -51,54 +64,16 @@ const Navbar = () => {
             <ArrowLeft className="w-5 h-5 text-[#383E49]" />
           </button>
         )}
-        {/* Dynamic Page Title */}
         <h1 className="text-lg font-semibold">{getPageTitle()}</h1>
       </div>
 
-      {/* Right Section: Search Bar and Settings Button */}
-      <div className="flex items-center space-x-4">
-        {/* <div className="relative">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-48 px-3 py-2 text-sm bg-white border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 text-[#383E49] focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
-          />
-        </div>
-
-        <div className="relative">
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="p-2 rounded-full hover:bg-gray-200 transition-colors"
-          >
-            <Bell className="w-5 h-5 text-[#383E49]" />
-          </button>
-
-          {isOpen && (
-            <div className="absolute right-0 mt-2 w-64 bg-white shadow-lg rounded-lg p-3 border border-gray-200 z-50">
-              <p className="text-sm font-semibold text-gray-700">
-                Notifications
-              </p>
-              <div className="mt-2 space-y-2">
-                {notifications.map((notification) => (
-                  <div
-                    key={notification.id}
-                    className="p-2 bg-gray-100 rounded-md"
-                  >
-                    {notification.message}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div> */}
-
-        {/* Settings Button */}
-        <Link
-          href="/settings"
-          className="p-2 rounded-full hover:bg-gray-200 transition-colors"
-        >
-          <Settings className="w-5 h-5 text-[#383E49]" />
-        </Link>
+      {/* Right: User Info */}
+      <div
+        onClick={() => router.push("/profile-data")}
+        className="flex items-center space-x-2 text-[#383E49] hover:underline cursor-pointer hover:opacity-85"
+      >
+        <span className="text-sm font-medium">{userName}</span>
+        <CircleUserRound className="w-6 h-6" />
       </div>
     </div>
   );

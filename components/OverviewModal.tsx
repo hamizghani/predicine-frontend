@@ -39,15 +39,27 @@ const OverviewCard: React.FC<OverviewCardProps> = ({
     </div>
   );
 };
+interface OverviewModalProps {
+  sales: number;
+  quantity: number;
+  topSelling: string;
+}
 
-const OverviewModal = () => {
+const OverviewModal: React.FC<OverviewModalProps> = ({
+  sales,
+  quantity,
+  topSelling,
+}) => {
   return (
     <div className="flex flex-wrap lg:flex-nowrap items-center justify-between mb-10 gap-4">
-      <OverviewCard title="Sales" value="IDR 832" trend="up" />
+      <OverviewCard title="Sales" value={`IDR ${sales}`} trend="up" />
       <div className="h-12 w-px bg-gray-300 hidden lg:block" />
-      <OverviewCard title="Quantity" value="413" />
+      <OverviewCard title="Quantity" value={quantity} />
       <div className="h-12 w-px bg-gray-300 hidden lg:block" />
-      <OverviewCard title="Top Selling" value="Lansoprazole" />
+      <OverviewCard
+        title="Top Selling"
+        value={topSelling ? topSelling : "None"}
+      />
       <div className="h-12 w-px bg-gray-300 hidden lg:block" />
       <OverviewCard title="Overall Stock Status" value="15%" percentage={15} />
     </div>

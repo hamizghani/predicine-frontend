@@ -1,42 +1,64 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Plus, Filter, Download, PackageX } from "lucide-react";
 
-import data from "@/mockup/data.json"; // Assuming mock data is available here
+import { Download } from "lucide-react";
+
 import RecommendedProductSection from "@/components/RecommendedProductSection";
-import { useIndexedDB } from "@/hooks/UseIndexedDB";
-import { Product } from "@/types/product";
 import ProductSectionModal from "@/components/ProductSectionModal";
 import RestockAlertModal from "@/components/RestockAlertModal";
+import axios from "axios";
+import { useProductRefresh } from "@/context/ProductRefreshContext";
 
 const AllProducts = () => {
-  const { items: products } = useIndexedDB<Product>("products");
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const [userData, setUserData] = useState<{
+    name: string;
+    sales: number;
+    quantitySold: number;
+    price: number[];
+  }>({
+    name: "User",
+    sales: 0,
+    quantitySold: 0,
+    price: [],
+  });
+  const { trigger } = useProductRefresh();
 
-  const currentItems = products.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) return;
+
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/user/self`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const user = res.data.user;
+        setUserData({
+          name: user.name,
+          sales: user.sales,
+          quantitySold: user.quantitySold,
+          price: user.price ?? [],
+        });
+      } catch (error) {
+        console.error("Failed to fetch user info:", error);
+      }
+    };
+
+    fetchUser();
+  }, [trigger]);
 
   return (
     <div className="p-4 space-y-6 w-full">
       <h1 className="font-medium text-xl">All Products</h1>
       <div className="w-full px-5 bg-gray-200 h-[1.5px]"></div>
-
       {/* Restock Alerts */}
       <RestockAlertModal />
-
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center gap-2">
           <Button
@@ -53,16 +75,16 @@ const AllProducts = () => {
           </Button>
         </div> */}
       </div>
-
       {/* Divider */}
       <div className="w-full px-5 bg-gray-200 h-[1.5px]"></div>
-
       {/* Products Section */}
-      <ProductSectionModal />
-
+      {userData.price.length > 0 ? (
+        <ProductSectionModal userPrice={userData.price} />
+      ) : (
+        <p className="font-semibold">Loading your products...</p>
+      )}{" "}
       {/* Divider */}
       <div className="w-full px-5 bg-gray-200 h-[1.5px]"></div>
-
       <RecommendedProductSection />
     </div>
   );

@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import LayoutWrapper from "@/components/LayoutWrapper"; // New client-side component
 import "./globals.css";
+import { ProductRefreshProvider } from "@/context/ProductRefreshContext";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -28,8 +29,9 @@ export default function RootLayout({
       <body className={`${poppins.variable} antialiased`}>
         {/* Delegate rendering logic to a client-side component */}
         <Toaster position="top-center" reverseOrder={false} />
-
-        <LayoutWrapper>{children}</LayoutWrapper>
+        <ProductRefreshProvider>
+          <LayoutWrapper>{children}</LayoutWrapper>
+        </ProductRefreshProvider>
       </body>
     </html>
   );
