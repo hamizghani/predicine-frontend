@@ -16,6 +16,7 @@ import { useIndexedDB } from "@/hooks/useIndexedDB";
 import DeleteProductModal from "@/components/DeleteProductModal";
 import EditProductModal from "./EditProductModal";
 import SellProductModal from "./SellProductModal";
+import GeneralAddProductModal from "./GeneralAddProductModal";
 
 interface Product {
   id: number;
@@ -62,9 +63,13 @@ const ProductSectionModal = () => {
         </h2>
         <div className="flex flex-wrap justify-center sm:justify-end items-center gap-2">
           <Input placeholder="Search..." className="w-full sm:w-48" />
-          <Button className="w-full bg-[#ECF3FF] text-[#4857C3] sm:w-auto">
-            <Plus className="w-4 h-4 mr-2" /> Add Product
-          </Button>
+          <GeneralAddProductModal
+            triggerElement={
+              <Button className="cursor-pointer w-full bg-[#ECF3FF] text-[#4857C3] sm:w-auto">
+                <Plus className="w-4 h-4 mr-2" /> Add Product
+              </Button>
+            }
+          />
         </div>
       </div>
 
