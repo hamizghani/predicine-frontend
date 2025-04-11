@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/table";
 import { Plus, PackageX, PencilLine, ShoppingCart, Trash2 } from "lucide-react";
 
-import { useIndexedDB } from "@/hooks/useIndexedDB";
+import { useIndexedDB } from "@/hooks/UseIndexedDB";
 import DeleteProductModal from "@/components/DeleteProductModal";
 import EditProductModal from "./EditProductModal";
 import SellProductModal from "./SellProductModal";

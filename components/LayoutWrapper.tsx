@@ -13,19 +13,19 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      {!isLoginPage ? (
-        <div className="flex min-h-screen">
-          <AuthContext.Provider value={{ auth, setAuth }}>
-          <Sidebar />
-          <div className="flex flex-col flex-1 w-[90%] mt-20 sm:mt-0 sm:ml-16">
-            <Navbar />
-            <main className="p-4 flex-1">{children}</main>
+      <AuthContext.Provider value={{ auth, setAuth }}>
+        {!isLoginPage ? (
+          <div className="flex min-h-screen">
+            <Sidebar />
+            <div className="flex flex-col flex-1 w-[90%] mt-20 sm:mt-0 sm:ml-16">
+              <Navbar />
+              <main className="p-4 flex-1">{children}</main>
+            </div>
           </div>
-          </AuthContext.Provider>
-        </div>
-      ) : (
-        <main className="min-h-screen">{children}</main>
-      )}
+        ) : (
+          <main className="min-h-screen">{children}</main>
+        )}
+      </AuthContext.Provider>
     </>
   );
 };
