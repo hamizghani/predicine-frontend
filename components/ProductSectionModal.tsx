@@ -199,15 +199,6 @@ const ProductSectionModal = () => {
                   {/* Actions */}
                   <TableCell className="text-center">
                     <div className="flex flex-col items-center justify-center gap-2">
-                      <EditProductModal
-                        product={product}
-                        triggerElement={
-                          <button className="cursor-pointer flex items-center justify-center gap-2 w-20 sm:w-24 text-sm px-1 sm:px-3 py-1 sm:py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
-                            <PencilLine className="w-4 h-4" />
-                            Edit
-                          </button>
-                        }
-                      />
                       <SellProductModal
                         product={product}
                         triggerElement={
@@ -215,6 +206,18 @@ const ProductSectionModal = () => {
                             <ShoppingCart className="w-4 h-4" />
                             Sell
                           </button>
+                        }
+                      />
+                      <EditProductModal
+                        product={product}
+                        triggerElement={
+                          //   <button className="cursor-pointer flex items-center justify-center gap-2 w-20 sm:w-24 text-sm px-1 sm:px-3 py-1 sm:py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+                          //     Edit
+                          //   </button>
+                          <Button className="cursor-pointer border-2 flex items-center justify-center gap-2 w-20 sm:w-24 text-sm px-1 sm:px-3 py-1 sm:py-2 bg-[#ECF3FF] text-[#4857C3]">
+                            <PencilLine className="w-4 h-4" />
+                            Edit
+                          </Button>
                         }
                       />
                       <DeleteProductModal
