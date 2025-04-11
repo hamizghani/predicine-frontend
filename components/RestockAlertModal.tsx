@@ -3,7 +3,8 @@ import data from "@/mockup/data.json"; // Assuming mock data is available here
 
 const RestockAlertModal = () => {
   return (
-    <div className="flex flex-col lg:flex-row bg-[#2A2E60] rounded-xl p-4 gap-6">
+    <div className="flex flex-col lg:flex-row bg-gradient-to-r from-[#1E224B] via-[#2A2E60] to-[#2E316D] rounded-xl p-4 gap-6 text-white shadow-md">
+      {" "}
       {/* Restock Alerts */}
       <div className="lg:w-1/2 w-full text-white p-4">
         <h2 className="text-lg font-semibold">Restock Alerts</h2>
@@ -22,10 +23,8 @@ const RestockAlertModal = () => {
           ))}
         </ul>
       </div>
-
       {/* Divider for mobile */}
       <div className="w-full h-px bg-gray-200 my-4 lg:hidden"></div>
-
       {/* Medicine Recommendation */}
       <div className="lg:w-1/2 w-full text-white p-4">
         <h2 className="text-lg font-semibold">Medicine Recommendation</h2>

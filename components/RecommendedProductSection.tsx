@@ -16,17 +16,15 @@ import { Medicine } from "@/types/Medicine";
 import { useIndexedDB } from "@/hooks/UseIndexedDB";
 import { Product } from "@/types/product";
 
-
 export default function RecommendedProductSection() {
-  const { items: existingProducts } = useIndexedDB<Product>('products');
+  const { items: existingProducts } = useIndexedDB<Product>("products");
   const [products, setProducts] = useState<Medicine[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  
   useEffect(() => {
-    const existingProductIds = existingProducts.map((e) => e.id)
-    setProducts(data.products.filter((e) => (!existingProductIds.includes(e.id))));
+    const existingProductIds = existingProducts.map((e) => e.id);
+    setProducts(data.products);
   }, [existingProducts]);
 
   const currentItems = products.slice(
@@ -37,7 +35,7 @@ export default function RecommendedProductSection() {
   return (
     <>
       {/* Products Section */}
-      <div className="space-y-4" >
+      <div className="space-y-4">
         <h2 className="text-lg font-semibold text-center sm:text-left">
           Recommendations
         </h2>
@@ -113,5 +111,5 @@ export default function RecommendedProductSection() {
         </div>
       </div>
     </>
-  )
+  );
 }
