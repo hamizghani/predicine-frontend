@@ -1,34 +1,42 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { AuthContext } from "@/context/AuthContext";
+import axios from "axios";
 
 export default function SignupPage() {
   const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
+  const [region, setRegion] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
+  const {auth, setAuth} = useContext(AuthContext)
+
+  useEffect(()=> {
+    if (auth.authenticated) return router.push('/')
+  }, [])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!username || !password || !confirmPassword) {
-      setError("Please fill in all fields.");
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.");
-      return;
-    }
-
-    // Mock signup (in real use case: send to backend)
-    localStorage.setItem("isSignedUp", "true");
-
-    // Redirect to login page
-    router.push("/login");
+    axios({
+      url: `${process.env.NEXT_PUBLIC_API_URL}/api/user/create`,
+      method: 'POST',
+      data: {
+        username,
+        password,
+        region,
+        name
+      }
+    }).then(() => {
+      router.push('/login')
+    }).catch((error) => {
+      console.log(error)
+    })
   };
 
   return (
@@ -71,6 +79,24 @@ export default function SignupPage() {
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              className="w-full border-b-2 border-gray-500 focus:outline-none focus:border-[#898CDC] font-medium py-3 sm:py-4 text-gray-700 text-sm sm:text-base"
+            />
+          </div>
+          <div className="w-full">
+            <input
+              type="text"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full border-b-2 border-gray-500 focus:outline-none focus:border-[#898CDC] font-medium py-3 sm:py-4 text-gray-700 text-sm sm:text-base"
+            />
+          </div>
+          <div className="w-full">
+            <input
+              type="text"
+              placeholder="Region"
+              value={region}
+              onChange={(e) => setRegion(e.target.value)}
               className="w-full border-b-2 border-gray-500 focus:outline-none focus:border-[#898CDC] font-medium py-3 sm:py-4 text-gray-700 text-sm sm:text-base"
             />
           </div>

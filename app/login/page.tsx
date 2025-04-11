@@ -1,30 +1,37 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import { AuthContext } from "@/context/AuthContext";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
+  const {auth, setAuth} = useContext(AuthContext)
 
-  // Demo credentials stored in environment variables
-  const demoUsername = process.env.NEXT_PUBLIC_USERNAME || "demoUser";
-  const demoPassword = process.env.NEXT_PUBLIC_PASSWORD || "demoPass";
+  useEffect(()=> {
+    if (auth.authenticated) router.push('/')
+  }, [])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Validate credentials
-    if (username === demoUsername && password === demoPassword) {
-      // Save "logged in" state in localStorage
-      localStorage.setItem("isLoggedIn", "true");
-      router.push("/"); // Redirect to home or dashboard
-    } else {
-      setError("Invalid username or password");
-    }
+    axios({
+      url: `${process.env.NEXT_PUBLIC_API_URL}/api/user/login`,
+      method: 'POST',
+      data: {
+        username,
+        password
+      }
+    }).then((resp) => {
+      setAuth({accessToken: resp.data.accessToken, authenticated: true});
+    }).catch((error) => {
+      console.log(error)
+    })
   };
 
   return (

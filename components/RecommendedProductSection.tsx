@@ -12,8 +12,8 @@ import {
 
 import data from "@/mockup/file.json"; // Assuming mock data is available here
 import AddProductModal from "./AddProductModal";
-import { Medicine } from "@/types/medicine";
-import { useIndexedDB } from "@/hooks/useIndexedDB";
+import { Medicine } from "@/types/Medicine";
+import { useIndexedDB } from "@/hooks/UseIndexedDB";
 import { Product } from "@/types/product";
 
 

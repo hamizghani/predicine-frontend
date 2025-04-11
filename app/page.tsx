@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 import dynamic from "next/dynamic";
 
-import { useIndexedDB } from "@/hooks/useIndexedDB";
+import { useIndexedDB } from "@/hooks/UseIndexedDB";
 import RestockAlertModal from "@/components/RestockAlertModal";
 import ProductSectionModal from "@/components/ProductSectionModal";
 import OverviewModal from "@/components/OverviewModal";

@@ -1,6 +1,6 @@
 "use client"; // Mark this as a client component
 import { usePathname, useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Separator } from "@/components/ui/separator";
 import {
   Menu,
@@ -14,12 +14,15 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { AuthContext } from "@/context/AuthContext";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false); // Sidebar state
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // Mobile menu state
   const [isSearchOpen, setIsSearchOpen] = useState(false); // Search bar state
   const pathname = usePathname(); // Get the current pathname
+
+  const { auth, setAuth } = useContext(AuthContext);
 
   //   // Load `isOpen` from local storage when the component mounts
   //   useEffect(() => {
@@ -37,8 +40,7 @@ const Sidebar = () => {
 
   // Check if user is logged in when accessing the settings page
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem("isLoggedIn");
-    if (!isLoggedIn) {
+    if (!auth.authenticated) {
       router.push("/login");
     }
   }, [router]);

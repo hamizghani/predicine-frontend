@@ -1,4 +1,4 @@
-import { Medicine } from "./medicine";
+import { Medicine } from "./Medicine";
 
 export interface Product extends Medicine {
   sold: number;

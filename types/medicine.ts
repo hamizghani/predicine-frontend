@@ -1,11 +1,10 @@
+import { TransactionHistory } from "./TransactionHistory";
 
 export interface Medicine {
   id: number;
   name: string;
-  price: number;
-  currency: string;
-  image: string;
   description: string;
-  stock: number;
-  category: string;
+  brief: string;
+  imageUrl: string;
+  transactionHistory: TransactionHistory[]
 }

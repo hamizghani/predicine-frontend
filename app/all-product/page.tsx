@@ -14,7 +14,7 @@ import { Plus, Filter, Download, PackageX } from "lucide-react";
 
 import data from "@/mockup/data.json"; // Assuming mock data is available here
 import RecommendedProductSection from "@/components/RecommendedProductSection";
-import { useIndexedDB } from "@/hooks/useIndexedDB";
+import { useIndexedDB } from "@/hooks/UseIndexedDB";
 import { Product } from "@/types/product";
 import ProductSectionModal from "@/components/ProductSectionModal";
 import RestockAlertModal from "@/components/RestockAlertModal";
