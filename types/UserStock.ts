@@ -7,5 +7,5 @@ export interface UserStock {
     medicineId: number;
     medicine: Medicine;
     batches: StockBatch[];
-    ForecastedUserStock: ForecastedUserStock[];
+    forecastedUserStock: ForecastedUserStock;
 }
