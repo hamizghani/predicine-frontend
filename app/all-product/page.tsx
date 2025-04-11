@@ -59,22 +59,7 @@ const AllProducts = () => {
       <div className="w-full px-5 bg-gray-200 h-[1.5px]"></div>
       {/* Restock Alerts */}
       <RestockAlertModal />
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            className="flex items-center cursor-pointer"
-          >
-            <Download className="w-4 h-4 mr-2" /> Download Report
-          </Button>
-        </div>
-        {/* <div className="flex flex-wrap justify-center sm:justify-end items-center gap-2">
-          <Input placeholder="Search..." className="w-full sm:w-48" />
-          <Button className="w-full bg-[#ECF3FF] text-[#4857C3] sm:w-auto">
-            <Plus className="w-4 h-4 mr-2" /> Add Product
-          </Button>
-        </div> */}
-      </div>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"></div>
       {/* Divider */}
       <div className="w-full px-5 bg-gray-200 h-[1.5px]"></div>
       {/* Products Section */}

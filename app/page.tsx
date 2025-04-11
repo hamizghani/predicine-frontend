@@ -23,11 +23,13 @@ const Dashboard = () => {
     name: string;
     sales: number;
     quantitySold: number;
+    bestSelling: string;
     price: number[];
   }>({
     name: "User",
     sales: 0,
     quantitySold: 0,
+    bestSelling: "None",
     price: [],
   });
 
@@ -50,6 +52,7 @@ const Dashboard = () => {
           name: user.name,
           sales: user.sales,
           quantitySold: user.quantitySold,
+          bestSelling: user.bestselling,
           price: user.price ?? [],
         });
       } catch (error) {
@@ -70,7 +73,7 @@ const Dashboard = () => {
           <OverviewModal
             sales={userData.sales}
             quantity={userData.quantitySold}
-            topSelling="Lansoprazole" // Replace with dynamic if available
+            topSelling={userData.bestSelling} // Replace with dynamic if available
           />
           <RestockAlertModal />
         </div>

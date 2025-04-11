@@ -21,6 +21,7 @@ import {
   ChevronDown,
   ChevronUp,
   Package,
+  Download,
 } from "lucide-react";
 
 import DeleteProductModal from "@/components/DeleteProductModal";
@@ -28,6 +29,7 @@ import EditProductModal from "./EditProductModal";
 import SellProductModal from "./SellProductModal";
 import GeneralAddProductModal from "./GeneralAddProductModal";
 import { useProductRefresh } from "@/context/ProductRefreshContext";
+import EditBatchModal from "./EditBatchModal";
 
 interface StockBatch {
   id: number;
@@ -65,6 +67,8 @@ const ProductSectionModal = ({ userPrice }: { userPrice: number[] }) => {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+  const [searchTerm, setSearchTerm] = useState("");
+
   const { trigger } = useProductRefresh();
 
   useEffect(() => {
@@ -114,7 +118,11 @@ const ProductSectionModal = ({ userPrice }: { userPrice: number[] }) => {
     fetchProducts();
   }, [trigger, userPrice]);
 
-  const currentItems = products.slice(
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const currentItems = filteredProducts.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -127,7 +135,21 @@ const ProductSectionModal = ({ userPrice }: { userPrice: number[] }) => {
           Products
         </h2>
         <div className="flex flex-wrap justify-center sm:justify-end items-center gap-2">
-          <Input placeholder="Search..." className="w-full sm:w-48" />
+          <Button
+            variant="outline"
+            className="flex items-center cursor-pointer"
+          >
+            <Download className="w-4 h-4 mr-2" /> Download Report
+          </Button>
+          <Input
+            placeholder="Search..."
+            className="w-full sm:w-48"
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1); // Reset to page 1 on new search
+            }}
+          />
           <GeneralAddProductModal
             triggerElement={
               <Button className="cursor-pointer w-full bg-[#ECF3FF] text-[#4857C3] sm:w-auto">
@@ -169,7 +191,7 @@ const ProductSectionModal = ({ userPrice }: { userPrice: number[] }) => {
                 </TableCell>
               </TableRow>
             ) : (
-              currentItems.map((product, idx) => (
+              currentItems.reverse().map((product, idx) => (
                 <React.Fragment key={idx}>
                   <TableRow>
                     <TableCell className="pr-4">
@@ -283,15 +305,15 @@ const ProductSectionModal = ({ userPrice }: { userPrice: number[] }) => {
                   {expandedIndex === idx && (
                     <TableRow>
                       <TableCell colSpan={7} className="bg-gray-50 py-4">
-                        <div className="space-y-3">
-                          <p className="font-medium text-gray-700">
+                        <div className="space-y-3 ">
+                          <p className="ml-4 w-fit rounded-xl font-medium bg-[#0B1739] text-white px-4 py-2">
                             <strong>Batches</strong>
                           </p>
                           <div className="space-y-2">
                             {product.batches.map((batch) => (
                               <div
                                 key={batch.id}
-                                className="grid grid-cols-1 sm:grid-cols-3 gap-2 items-center text-sm text-gray-700 border-b pb-2"
+                                className="flex justify-between px-6 gap-2 items-center text-sm text-gray-700 border-b pb-2 w-full"
                               >
                                 <span>
                                   <strong>Expiration:</strong>{" "}
@@ -303,12 +325,22 @@ const ProductSectionModal = ({ userPrice }: { userPrice: number[] }) => {
                                   <strong>Amount:</strong> {batch.amount} pcs
                                 </span>
                                 <div className="text-right sm:text-left">
-                                  <button
-                                    className="text-xs px-3 py-1 bg-blue-100 text-blue-700 font-medium rounded hover:bg-blue-200 transition"
-                                    // onClick={() => handleEditBatch(batch)}
-                                  >
-                                    Edit
-                                  </button>
+                                  <EditBatchModal
+                                    batch={{
+                                      id: batch.id,
+                                      amount: batch.amount,
+                                      expirationDate: new Date(
+                                        batch.expirationDate
+                                      )
+                                        .toISOString()
+                                        .split("T")[0], // ensure it's a date string like '2025-04-12'
+                                    }}
+                                    triggerElement={
+                                      <button className="cursor-pointer text-xs px-3 py-1 bg-blue-100 text-blue-700 font-medium rounded hover:bg-blue-200 transition">
+                                        Edit
+                                      </button>
+                                    }
+                                  />
                                 </div>
                               </div>
                             ))}

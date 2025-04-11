@@ -46,7 +46,6 @@ export default function RecommendedProductSection() {
             <TableHeader>
               <TableRow>
                 <TableHead>Products</TableHead>
-                <TableHead>Price</TableHead>
                 <TableHead>Quantity needed</TableHead>
                 <TableHead>Action</TableHead>
               </TableRow>

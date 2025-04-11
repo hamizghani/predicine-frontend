@@ -1,3 +1,4 @@
+"use client";
 import {
   Dialog,
   DialogContent,
@@ -13,6 +14,9 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import { Trash2 } from "lucide-react";
 import { Product } from "@/types/product";
 import { useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useProductRefresh } from "@/context/ProductRefreshContext";
 
 export default function DeleteProductModal({
   product,
@@ -23,26 +27,34 @@ export default function DeleteProductModal({
 }) {
   const [amount, setAmount] = useState<number>(1);
   const [open, setOpen] = useState(false);
+  const { refetch } = useProductRefresh();
 
-  // Placeholder: available stock from user stock record
-  const currentStock = 10; // Replace this with: user.stock[product.medicineId]
+  const currentStock = product.stock;
 
   const handleDelete = async () => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) return toast.error("Unauthorized.");
+
     try {
-      await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/products/${product.id}`,
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/product/delete`,
         {
-          method: "DELETE",
           headers: {
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
+          data: {
+            id: product.id,
             amount,
-          }),
+          },
         }
       );
+
+      toast.success("Stock deleted.");
+      refetch();
     } catch (error) {
-      console.error("Failed to delete product amount:", error);
+      console.error("Failed to delete product stock:", error);
+      toast.error("Failed to delete.");
     }
   };
 
@@ -71,11 +83,9 @@ export default function DeleteProductModal({
           </p>
 
           <p className="text-xs text-gray-600">
-            *May note that deletion prioritize products with the{" "}
-            <span className="font-semibold text-black">
-              closest expiration date.
-            </span>{" "}
-            Consider deleting from specific batch.
+            *Deletion prioritizes stock from batches{" "}
+            <span className="font-semibold text-black">closest to expiry</span>.
+            Prefer deleting by batch for control.
           </p>
 
           <div className="grid grid-cols-4 items-center gap-4">

@@ -1,0 +1,352 @@
+[
+    {
+      "id": 1,
+      "medicine_name": "Paracetamol",
+      "brief": "Paracetamol is a commonly used medication.",
+      "description": "Paracetamol is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://www.tanyaobat.com/files/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdllFIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--a91721bc16be583c2334982d1c52dcfb9e079421/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDRG9MWm05eWJXRjBPZ2wzWldKd09oUnlaWE5wZW1WZmRHOWZiR2x0YVhSYkJ6QnBBdlFCT2d4eGRXRnNhWFI1YVZBPSIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--12f876ec81559520874112cdcdc26df124828ea3/paracetamol%20kf.webp"
+    },
+    {
+      "id": 2,
+      "medicine_name": "Ibuprofen",
+      "brief": "Ibuprofen is a commonly used medication.",
+      "description": "Ibuprofen is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://res-4.cloudinary.com/dk0z4ums3/image/upload/c_scale,h_300,w_300/v1/production/pharmacy/products/1687424207_ibu_400_fm"
+    },
+    {
+      "id": 3,
+      "medicine_name": "Aspirin",
+      "brief": "Aspirin is a commonly used medication.",
+      "description": "Aspirin is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://img-cdn.medkomtek.com/_UF0an7Wb0gTB6imRjRyR4Gp46A=/510x395/smart/filters:quality(100):format(webp)/article/9hZ6da9atgxlMDS9JQY2d/original/1669267939-Cardio%20Aspirin.jpg"
+    },
+    {
+      "id": 4,
+      "medicine_name": "Naproxen",
+      "brief": "Naproxen is a commonly used medication.",
+      "description": "Naproxen is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://www.medicinedirect.co.uk/media/catalog/product/cache/8bf3693ed458c257f5171ffffa4e8921/n/a/naproxen-500mg-tablets-buy-online-uk_-_medicine_direct.jpg"
+    },
+    {
+      "id": 5,
+      "medicine_name": "Ketoprofen",
+      "brief": "Ketoprofen is a commonly used medication.",
+      "description": "Ketoprofen is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://res-5.cloudinary.com/dk0z4ums3/image/upload/c_scale,h_500,w_500/v1/production/pharmacy/products/1660726367_5fb3894041ab59059e86a40f"
+    },
+    {
+      "id": 6,
+      "medicine_name": "Amoxicillin",
+      "brief": "Amoxicillin is a commonly used medication.",
+      "description": "Amoxicillin is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://res-5.cloudinary.com/dk0z4ums3/image/upload/c_scale,h_500,w_500/v1/production/pharmacy/products/1687394621_amox_dexa"
+    },
+    {
+      "id": 7,
+      "medicine_name": "Azithromycin",
+      "brief": "Azithromycin is a commonly used medication.",
+      "description": "Azithromycin is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://lirp.cdn-website.com/0ead930f/dms3rep/multi/opt/AZITHROMYCIN-500MG-KAPLET-SALUT-SELAPUT-640w.jpg"
+    },
+    {
+      "id": 8,
+      "medicine_name": "Ciprofloxacin",
+      "brief": "Ciprofloxacin is a commonly used medication.",
+      "description": "Ciprofloxacin is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://res-1.cloudinary.com/dk0z4ums3/image/upload/c_scale,h_500,w_500/v1/production/pharmacy/products/1694345917_cipro_500-removebg-preview"
+    },
+    {
+      "id": 9,
+      "medicine_name": "Doxycycline",
+      "brief": "Doxycycline is a commonly used medication.",
+      "description": "Doxycycline is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://res-2.cloudinary.com/dk0z4ums3/image/upload/c_scale,h_500,w_500/v1/production/pharmacy/products/1687402932_doxy_kf"
+    },
+    {
+      "id": 10,
+      "medicine_name": "Clindamycin",
+      "brief": "Clindamycin is a commonly used medication.",
+      "description": "Clindamycin is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://res-4.cloudinary.com/dk0z4ums3/image/upload/c_scale,h_500,w_500/v1/production/pharmacy/products/1687406573_clinda_300_dexa"
+    },
+    {
+      "id": 11,
+      "medicine_name": "Oseltamivir",
+      "brief": "Oseltamivir is a commonly used medication.",
+      "description": "Oseltamivir is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://d3bbrrd0qs69m4.cloudfront.net/images/product/apotek_online_k24klik_2021011104084023085_oseltamivir--3-.jpg"
+    },
+    {
+      "id": 12,
+      "medicine_name": "Acyclovir",
+      "brief": "Acyclovir is a commonly used medication.",
+      "description": "Acyclovir is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://res-1.cloudinary.com/dk0z4ums3/image/upload/c_scale,h_500,w_500/v1/production/pharmacy/products/1689819144_acyclovir_krim"
+    },
+    {
+      "id": 13,
+      "medicine_name": "Remdesivir",
+      "brief": "Remdesivir is a commonly used medication.",
+      "description": "Remdesivir is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTALR8QqmMPIo4kEvcGzkGEXTni2UdOcsvrNw&s"
+    },
+    {
+      "id": 14,
+      "medicine_name": "Favipiravir",
+      "brief": "Favipiravir is a commonly used medication.",
+      "description": "Favipiravir is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://d2qjkwm11akmwu.cloudfront.net/products/572485_10-3-2022_9-21-48-1665829750.webp"
+    },
+    {
+      "id": 15,
+      "medicine_name": "Zanamivir",
+      "brief": "Zanamivir is a commonly used medication.",
+      "description": "Zanamivir is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmegHQ1V-44L-TYytDTnR8cxPBeRbHofs0ZQ&s"
+    },
+    {
+      "id": 16,
+      "medicine_name": "Metformin",
+      "brief": "Metformin is a commonly used medication.",
+      "description": "Metformin is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://d2qjkwm11akmwu.cloudfront.net/products/386318_14-9-2022_11-12-32-1665787662.png"
+    },
+    {
+      "id": 17,
+      "medicine_name": "Insulin",
+      "brief": "Insulin is a commonly used medication.",
+      "description": "Insulin is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://images.everydayhealth.com/images/diabetes/what-is-insulin-1440x810.jpg"
+    },
+    {
+      "id": 18,
+      "medicine_name": "Glipizide",
+      "brief": "Glipizide is a commonly used medication.",
+      "description": "Glipizide is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbzi8JbR3UOcZPaOVD59fa_W5-3XlhSCUAgw&s"
+    },
+    {
+      "id": 19,
+      "medicine_name": "Sitagliptin",
+      "brief": "Sitagliptin is a commonly used medication.",
+      "description": "Sitagliptin is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://storage.googleapis.com/rxstorage/Product/Photos/farmaku_janumet-50-mg500-mg-tablet-01.jpg"
+    },
+    {
+      "id": 20,
+      "medicine_name": "Pioglitazone",
+      "brief": "Pioglitazone is a commonly used medication.",
+      "description": "Pioglitazone is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://d2qjkwm11akmwu.cloudfront.net/products/763270_15-7-2019_9-48-58-1665794030.webp"
+    },
+    {
+      "id": 21,
+      "medicine_name": "Atorvastatin",
+      "brief": "Atorvastatin is a commonly used medication.",
+      "description": "Atorvastatin is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHAiYdD-VECDREUASFaJrDx9o1ZF9cRWsQ7A&s"
+    },
+    {
+      "id": 22,
+      "medicine_name": "Simvastatin",
+      "brief": "Simvastatin is a commonly used medication.",
+      "description": "Simvastatin is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqkbwarPRBlGxlHQS_0F7mhRkFFw4NQ0hUJg&s"
+    },
+    {
+      "id": 23,
+      "medicine_name": "Lisinopril",
+      "brief": "Lisinopril is a commonly used medication.",
+      "description": "Lisinopril is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://res-1.cloudinary.com/dk0z4ums3/image/upload/c_scale,h_500,w_500/v1/production/pharmacy/products/1660811458_capture"
+    },
+    {
+      "id": 24,
+      "medicine_name": "Amlodipine",
+      "brief": "Amlodipine is a commonly used medication.",
+      "description": "Amlodipine is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://res-1.cloudinary.com/dk0z4ums3/image/upload/c_scale,h_500,w_500/v1/production/pharmacy/products/1669892799_amlodipine_5_mg"
+    },
+    {
+      "id": 25,
+      "medicine_name": "Losartan",
+      "brief": "Losartan is a commonly used medication.",
+      "description": "Losartan is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://res-5.cloudinary.com/dk0z4ums3/image/upload/c_scale,h_500,w_500/v1/production/pharmacy/products/1660210821_5fb3745d41ab59059e86715d"
+    },
+    {
+      "id": 26,
+      "medicine_name": "Furosemide",
+      "brief": "Furosemide is a commonly used medication.",
+      "description": "Furosemide is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXYcekOCMNxAHAgwDZY17pZcPqcUsR3dW3kg&s"
+    },
+    {
+      "id": 27,
+      "medicine_name": "Hydrochlorothiazide",
+      "brief": "Hydrochlorothiazide is a commonly used medication.",
+      "description": "Hydrochlorothiazide is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4eY5mEPwZIItJLKd674GNqpOf5ngOtEtQAA&s"
+    },
+    {
+      "id": 28,
+      "medicine_name": "Spironolactone",
+      "brief": "Spironolactone is a commonly used medication.",
+      "description": "Spironolactone is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://img-cdn.medkomtek.com/n00tKvyxUCzChW9itf4cu1EJANA=/fit-in/690x387/smart/filters:quality(100):strip_icc():format(webp)/drugs/U4Xk5Dd2MKvT45_SGrsbR/original/1667721926-Spironolactone.jpg"
+    },
+    {
+      "id": 29,
+      "medicine_name": "Warfarin",
+      "brief": "Warfarin is a commonly used medication.",
+      "description": "Warfarin is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://e-katalog.lkpp.go.id/katalog/produk/download/gambar/976478001?file_name=27919047199719.jpg&v=3&file_sub_location=produk_gambar%2F2024%2F06%2F25"
+    },
+    {
+      "id": 30,
+      "medicine_name": "Clopidogrel",
+      "brief": "Clopidogrel is a commonly used medication.",
+      "description": "Clopidogrel is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://d2qjkwm11akmwu.cloudfront.net/products/407110_8-5-2022_21-39-24-1665822706.webp"
+    },
+    {
+      "id": 31,
+      "medicine_name": "Dexamethasone",
+      "brief": "Dexamethasone is a commonly used medication.",
+      "description": "Dexamethasone is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://res-4.cloudinary.com/dk0z4ums3/image/upload/c_scale,h_500,w_500/v1/production/pharmacy/products/1660806973_5fb37f4441ab59059e868bf6"
+    },
+    {
+      "id": 32,
+      "medicine_name": "Prednisone",
+      "brief": "Prednisone is a commonly used medication.",
+      "description": "Prednisone is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://amanfarma.com/wp-content/uploads/2022/06/WhatsApp-Image-2022-06-16-at-10.36.00.jpeg"
+    },
+    {
+      "id": 33,
+      "medicine_name": "Hydrocortisone",
+      "brief": "Hydrocortisone is a commonly used medication.",
+      "description": "Hydrocortisone is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmk5WAmojdZIDO5zPTJ9Pst8ZdYHTbUxUNyQ&s"
+    },
+    {
+      "id": 34,
+      "medicine_name": "Methotrexate",
+      "brief": "Methotrexate is a commonly used medication.",
+      "description": "Methotrexate is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://kalbemed.com/storage/images/products/146a1963ca122037991b93cf10ed8718.jpg"
+    },
+    {
+      "id": 35,
+      "medicine_name": "Mycophenolate",
+      "brief": "Mycophenolate is a commonly used medication.",
+      "description": "Mycophenolate is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://assets.roche.com/f/176343/1480x832/2d07ffdf84/cellcept.jpg"
+    },
+    {
+      "id": 36,
+      "medicine_name": "Levothyroxine",
+      "brief": "Levothyroxine is a commonly used medication.",
+      "description": "Levothyroxine is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://mms.businesswire.com/media/20240705140348/en/2178260/5/levo-single-box-and-blister.jpg?download=1"
+    },
+    {
+      "id": 37,
+      "medicine_name": "Propylthiouracil",
+      "brief": "Propylthiouracil is a commonly used medication.",
+      "description": "Propylthiouracil is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://res-4.cloudinary.com/dk0z4ums3/image/upload/c_scale,h_500,w_500/v1/production/pharmacy/products/1660921637_62a18708f15ee840f565e69d"
+    },
+    {
+      "id": 38,
+      "medicine_name": "Methimazole",
+      "brief": "Methimazole is a commonly used medication.",
+      "description": "Methimazole is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://pureliferx.com/wp-content/uploads/2021/02/methimazole-thyroid-medication-for-cats-pure-life-pharmacy-cat-and-dog-medication-foley-alabama.jpg"
+    },
+    {
+      "id": 39,
+      "medicine_name": "Fluoxetine",
+      "brief": "Fluoxetine is a commonly used medication.",
+      "description": "Fluoxetine is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://irp.cdn-website.com/0ead930f/dms3rep/multi/IMG_6310.png"
+    },
+    {
+      "id": 40,
+      "medicine_name": "Sertraline",
+      "brief": "Sertraline is a commonly used medication.",
+      "description": "Sertraline is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://d2qjkwm11akmwu.cloudfront.net/products/282470_26-12-2019_9-31-13-1665793804.webp"
+    },
+    {
+      "id": 41,
+      "medicine_name": "Diazepam",
+      "brief": "Diazepam is a commonly used medication.",
+      "description": "Diazepam is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://cdn.boundtree.com/btm/products/3213-12_original_515Wx515H_8832991690782"
+    },
+    {
+      "id": 42,
+      "medicine_name": "Lorazepam",
+      "brief": "Lorazepam is a commonly used medication.",
+      "description": "Lorazepam is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://sunthisepuri.com/images/product/9.png"
+    },
+    {
+      "id": 43,
+      "medicine_name": "Alprazolam",
+      "brief": "Alprazolam is a commonly used medication.",
+      "description": "Alprazolam is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://static.wixstatic.com/media/64db44_5118cc4cfc154bb19562001bc9cee4c7~mv2.jpg/v1/fill/w_2825,h_2933,al_c,q_90/Gallery%20Kesehatan%20Jiwa-02.jpg"
+    },
+    {
+      "id": 44,
+      "medicine_name": "Haloperidol",
+      "brief": "Haloperidol is a commonly used medication.",
+      "description": "Haloperidol is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://e-katalog.lkpp.go.id/katalog/produk/download/gambar/939644925?file_name=13066780241638384.jpg&v=3&file_sub_location=produk_gambar%2F2022%2F12%2F13"
+    },
+    {
+      "id": 45,
+      "medicine_name": "Risperidone",
+      "brief": "Risperidone is a commonly used medication.",
+      "description": "Risperidone is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://d2qjkwm11akmwu.cloudfront.net/products/images/18967.jpg"
+    },
+    {
+      "id": 46,
+      "medicine_name": "Omeprazole",
+      "brief": "Omeprazole is a commonly used medication.",
+      "description": "Omeprazole is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://primayahospital.com/wp-content/uploads/2024/03/B-1.webp"
+    },
+    {
+      "id": 47,
+      "medicine_name": "Ranitidine",
+      "brief": "Ranitidine is a commonly used medication.",
+      "description": "Ranitidine is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCYZMNwoKFDAOJuMR0A62mjVMOVZcRmWdwwQ&s"
+    },
+    {
+      "id": 48,
+      "medicine_name": "Pantoprazole",
+      "brief": "Pantoprazole is a commonly used medication.",
+      "description": "Pantoprazole is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://assets.goapotik.com/pantoprazole_ogb_dexa_medica_20_mg_box_30_tablet_asam_lambung_11.jpg"
+    },
+    {
+      "id": 49,
+      "medicine_name": "Esomeprazole",
+      "brief": "Esomeprazole is a commonly used medication.",
+      "description": "Esomeprazole is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://d2qjkwm11akmwu.cloudfront.net/products/440248_29-9-2020_17-12-20-1665814960.webp"
+    },
+    {
+      "id": 50,
+      "medicine_name": "Lansoprazole",
+      "brief": "Lansoprazole is a commonly used medication.",
+      "description": "Lansoprazole is used for treating various conditions. It works through specific mechanisms depending on its category. It is widely prescribed and generally well tolerated.",
+      "photo_link": "https://storage.googleapis.com/rxstorage/Product/Photos/farmaku_lansoprazole-30-mg-novell-01.jpg"
+    }
+]

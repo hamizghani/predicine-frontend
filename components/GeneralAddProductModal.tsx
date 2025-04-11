@@ -13,28 +13,8 @@ import { useState } from "react";
 import { DialogClose } from "@radix-ui/react-dialog";
 import axios from "axios";
 import { useProductRefresh } from "@/context/ProductRefreshContext";
-
+import medicines from "@/mockup/medicine.json";
 // Mock list of medicines (replace with API call or prop later)
-const medicines = [
-  {
-    id: 1,
-    name: "Paracetamol",
-    price: 5000,
-    image: "/placeholder.png",
-    description: "Pain reliever and fever reducer",
-    currency: "IDR",
-    category: "Analgesic",
-  },
-  {
-    id: 2,
-    name: "Amoxicillin",
-    price: 7500,
-    image: "/placeholder.png",
-    description: "Antibiotic for infections",
-    currency: "IDR",
-    category: "Antibiotic",
-  },
-];
 
 function getDefaultExpirationDate(): string {
   const date = new Date();
@@ -48,6 +28,7 @@ export default function GeneralAddProductModal({
   triggerElement: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
+
   const [selectedId, setSelectedId] = useState<number>(medicines[0].id);
   const [qty, setQty] = useState<number>(1);
   const [expirationDate, setExpirationDate] = useState<string>(
@@ -114,7 +95,7 @@ export default function GeneralAddProductModal({
             >
               {medicines.map((m) => (
                 <option key={m.id} value={m.id}>
-                  {m.name}
+                  {m.medicine_name}
                 </option>
               ))}
             </select>

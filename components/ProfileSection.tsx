@@ -1,197 +1,243 @@
 "use client";
 import { AuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { FaDownload } from "react-icons/fa";
-import { FiChevronDown, FiLogOut } from "react-icons/fi";
+import { useContext, useEffect, useState } from "react";
+import { FiDownload, FiChevronDown, FiLogOut } from "react-icons/fi";
+import axios from "axios";
+import ChangePasswordModal from "./ChangePasswordModal";
 
 const ProfileSection = () => {
   const router = useRouter();
+  const { setAuth } = useContext(AuthContext);
 
   const [periodOpen, setPeriodOpen] = useState(false);
-  const [selectedPeriod, setSelectedPeriod] = useState("Select Period"); // Default text
+  const [selectedPeriod, setSelectedPeriod] = useState("Select Period");
 
   const [regionOpen, setRegionOpen] = useState(false);
-  const [selectedRegion, setSelectedRegion] = useState("Select Region"); // Default text
-  
+  const [selectedRegion, setSelectedRegion] = useState("");
+  const [username, setUsername] = useState("");
+  const [companyName, setCompanyName] = useState("");
 
-  const { auth, setAuth } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
+
   const periods = ["Last 7 Days", "Last 30 Days", "Last 3 Months", "Last Year"];
-  const regions = ["Kalimantan", "Sulawesi", "Jawa", "Papua"];  
-  const [username, setUsername] = useState("ryanGilang");
-  const [companyName, setCompanyName] = useState("Primakara Apotek");
-  
+  const regions = ["Kalimantan", "Sulawesi", "Jawa", "Papua", "Sumatra"];
 
   const handleLogout = () => {
-    localStorage.removeItem("accessToken"); // Remove token
-    setAuth({ authenticated: false }); //  Reset context
-    router.push("/login"); //  Redirect (optional)
+    localStorage.removeItem("accessToken");
+    setAuth({ authenticated: false });
+    router.push("/login");
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) return;
+
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/user/self`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const user = res.data.user;
+        setUsername(user.username);
+        setCompanyName(user.name);
+        setSelectedRegion(user.region);
+        setLoading(false);
+      } catch (error) {
+        console.error("Failed to fetch user info:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-gray-500">
+        Loading profile...
+      </div>
+    );
+  }
+
+  const handleSave = async () => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) return;
+
+    try {
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/user/update`,
+        {
+          name: companyName,
+          region: selectedRegion,
+          password: "", // optional — can be updated later
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      alert("Profile updated successfully!");
+    } catch (error) {
+      console.error("Failed to update user:", error);
+      alert("Failed to save changes.");
+    }
+  };
 
   return (
-    <div className="flex flex-col items-center justify-center md:flex-col gap-4  min-h-screen pb-40" style={{ backgroundImage: "url('/bg.png')" }}>
-      
-      {/* Right Section - General Information */}
-      <h2 className="m-6 text-2xl font-semibold text-white">Profile Data {companyName}</h2>
-      <div className="flex-1 bg-white p-6 rounded-lg shadow-md border-2 border-gray-100 w-[400px] lg:w-[700px]">
-      <h2 className="text-2xl font-semibold">About Company</h2>
+    <div
+      className="rounded-xl flex flex-col items-center justify-start gap-6 py-10 px-4 sm:px-6 md:px-10 bg-cover bg-center min-h-screen"
+      style={{ backgroundImage: "url('/bg.png')" }}
+    >
+      <h2 className="text-2xl font-semibold text-white text-center">
+        Profile Data {companyName}
+      </h2>
 
-      <div className="mt-4 space-y-3">
-      <div>
-        <label className="block text-gray-600 mb-4">Company Name</label>
-        <input
-          type="text"
-          className="w-full border rounded-lg px-4 py-2"
-          value={companyName}
-          onChange={(e) => setCompanyName(e.target.value)}
-        />
-      </div>
+      <div className="bg-white w-full max-w-md sm:max-w-2xl p-6 rounded-lg shadow-md border">
+        <h2 className="text-xl font-semibold mb-4">About Company</h2>
 
-      <div>
-        <label className="block text-gray-600 mb-4">Username</label>
-        <input
-          className="w-full border rounded-lg px-4 py-2"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-gray-600 mb-1">Username</label>
+            <p className="font-medium text-gray-800">{username}</p>
+          </div>
 
-      <label className="block text-gray-600">Region</label>
-      {/* Container for input and dropdown */}
-      <div className="relative">
-        {/* Trigger (optional) */}
-      <div
-        className="flex flex-row items-center justify-between w-full border rounded-lg px-4 py-2 cursor-pointer"
-        onClick={() => setRegionOpen(!regionOpen)}
-      >
-        {selectedRegion || "Select a region"}
+          <div>
+            <label className="block text-gray-600 mb-1">Company Name</label>
+            <input
+              type="text"
+              className="w-full border rounded-lg px-4 py-2"
+              value={companyName}
+              autoComplete="off"
+              onChange={(e) => setCompanyName(e.target.value)}
+            />
+          </div>
 
-        <FiChevronDown
-            className={`ml-2 transition-transform ${
-              periodOpen ? "rotate-180" : ""
-            }`}
-          />
-      </div>
-          
-      <div>
-        <label className="mt-4 block text-gray-600 mb-4">Password</label>
-        <input
-          className="w-full border rounded-lg px-4 py-2"
-          value="*********"
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        {/* change password */}
-      </div>
+          <div>
+            <label className="block text-gray-600 mb-1">Region</label>
+            <div className="relative">
+              <div
+                className="flex justify-between items-center border rounded-lg px-4 py-2 cursor-pointer"
+                onClick={() => setRegionOpen(!regionOpen)}
+              >
+                {selectedRegion || "Select a region"}
+                <FiChevronDown
+                  className={`ml-2 transition-transform ${
+                    regionOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </div>
 
-      <p
-        onClick={() => {
-          // Handle your change password logic here (e.g., show a modal or redirect)
-          console.log("Change password clicked");
-        }}
-        className="text-blue-500 text-m mt-2 cursor-pointer hover:underline"
-      >
-        Change Password
-      </p>
-
-          
-      {/* Buttons */}
-      <div className="flex flex-row mt-6 gap-4 justify-end">
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg"
-        >
-          <FiLogOut />
-          Logout
-        </button>
-        <button className="px-4 py-2 bg-[#6A5CED] text-white rounded-lg">
-          Save Changes
-        </button>
-      </div>
-          
-      {/* Dropdown */}
-      {regionOpen && (
-        <div className="absolute top-10 left-0 right-0 mt-1 border rounded-lg shadow-md bg-white z-10">
-          {regions.map((region) => (
-            <div
-              key={region}
-              onClick={() => {
-                setSelectedRegion(region);
-                setRegionOpen(false);
-              }}
-              className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-            >
-              {region}
+              {regionOpen && (
+                <div className="absolute w-full border mt-1 bg-white z-10 rounded shadow">
+                  {regions.map((region) => (
+                    <div
+                      key={region}
+                      onClick={() => {
+                        setSelectedRegion(region);
+                        setRegionOpen(false);
+                      }}
+                      className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                    >
+                      {region}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-          ))}
-        </div>
-      )}
+          </div>
 
+          <div>
+            <ChangePasswordModal
+              triggerElement={
+                <p className="text-blue-500 text-sm mt-2 cursor-pointer hover:underline">
+                  Change Password
+                </p>
+              }
+            />{" "}
+          </div>
+
+          <div className="flex flex-col sm:flex-row justify-end sm:justify-between gap-4 mt-4">
+            <button
+              onClick={handleLogout}
+              className="cursor-pointer hover:opacity-70 flex items-center justify-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg w-full sm:w-auto"
+            >
+              <FiLogOut />
+              Logout
+            </button>
+            <button
+              onClick={handleSave}
+              className="cursor-pointer hover:opacity-70 px-4 py-2 bg-[#6A5CED] text-white rounded-lg w-full sm:w-auto"
+            >
+              Save Changes
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
-    </div>
 
-    <div className=" bg-white p-6 rounded-lg shadow-md border-2 border-gray-100 w-[400px] lg:w-[700px]"> 
-      {/* Download Report */}
-      <div className="flex flex-col my-3 relative justify-center">
-        <div className="flex justify-center">
-          <h3 className="text-2xl font-semibold mb-1">Transaction Report</h3> 
-        </div>
-        <div className="w-full flex justify-center ">
-          <p className="text-center max-w-[500px]">View your transaction summary by selecting a period. Download the report or explore the full details.</p>
+      {/* Report Section */}
+      <div className="bg-white w-full max-w-md sm:max-w-2xl p-6 rounded-lg shadow-md border">
+        <div className="text-center mb-4">
+          <h3 className="text-xl font-semibold">Transaction Report</h3>
+          <p className="text-gray-600 mt-1 text-sm">
+            View your transaction summary by selecting a period. Download the
+            report or explore the full details.
+          </p>
         </div>
 
-        <div className=" flex flex-col items-center mt-4">
-          <h4 className="font-semibold my-2">Time Periode</h4>
+        <div className="mt-4 text-center">
+          <h4 className="font-semibold mb-2">Time Period</h4>
           <button
             onClick={() => setPeriodOpen(!periodOpen)}
-            className="relative flex items-center px-4 py-2 bg-gray-200 rounded"
-            >
-            {selectedPeriod} {/* Now displaying selected period */}
+            className="flex items-center justify-center mx-auto px-4 py-2 bg-gray-200 rounded"
+          >
+            {selectedPeriod}
             <FiChevronDown
               className={`ml-2 transition-transform ${
                 periodOpen ? "rotate-180" : ""
               }`}
-              />
+            />
           </button>
-        </div>  
-          
-      {/* Dropdown */}
-      {periodOpen && (
-        <div className="absolute left-60 -bottom-28 mt-2 border rounded-lg shadow-md bg-white w-48">
-          {periods.map((period) => (
-            <div
-              key={period}
-              onClick={() => {
-                setSelectedPeriod(period); // Update selected text
-                setPeriodOpen(false); // Close dropdown after selection
-              }}
-              className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-            >
-              {period}
-            </div>
-          ))}
-        </div>
-      )}
 
-      {/* Buttons */}
-      <div className="flex flex-row mt-6 gap-6 w-full">
-        <button
-          className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 text-white rounded-lg w-1/2 "
-        >
-          <FiDownload />
-          Download
-        </button>
-        <button className="px-4 py-2 bg-[#6A5CED] text-white rounded-lg w-1/2"
-          onClick={() => router.push("/history")}>
-          See Details
-        </button>
+          {periodOpen && (
+            <div className="absolute w-fit border ml-15 -mt-20 bg-white z-10 rounded shadow">
+              {periods.map((period) => (
+                <div
+                  key={period}
+                  onClick={() => {
+                    setSelectedPeriod(period);
+                    setPeriodOpen(false);
+                  }}
+                  className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                >
+                  {period}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-4 mt-6">
+          <button className="cursor-pointer hover:opacity-70 flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 text-white rounded-lg w-full">
+            <FiDownload />
+            Download
+          </button>
+          <button
+            onClick={() => router.push("/history")}
+            className="cursor-pointer hover:opacity-70 px-4 py-2 bg-[#6A5CED] text-white rounded-lg w-full"
+          >
+            See Details
+          </button>
+        </div>
       </div>
     </div>
-    </div>
-    
-    </div>
-  );  
+  );
 };
 
 export default ProfileSection;
