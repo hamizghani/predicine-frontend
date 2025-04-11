@@ -6,7 +6,7 @@ import Sidebar from "@/components/sidebar";
 const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname(); // Get the current route
 
-  const isLoginPage = pathname === "/login"; // Check if it's the login page
+  const isLoginPage = pathname === "/login" || pathname === "/signup"; // Check if it's the login page
 
   return (
     <>

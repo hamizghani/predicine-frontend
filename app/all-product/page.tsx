@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Plus, Filter, Download } from "lucide-react";
+import { Plus, Filter, Download, PackageX } from "lucide-react";
 
 import data from "@/mockup/data.json"; // Assuming mock data is available here
 import RecommendedProductSection from "@/components/RecommendedProductSection";
@@ -65,9 +65,6 @@ const AllProducts = () => {
           <Button className="w-full bg-[#ECF3FF] text-[#4857C3] sm:w-auto">
             <Plus className="w-4 h-4 mr-2" /> Add Product
           </Button>
-          <Button variant="outline" className="w-full sm:w-auto">
-            <Filter className="w-4 h-4 mr-2" /> Filters
-          </Button>
         </div>
       </div>
 
@@ -94,58 +91,75 @@ const AllProducts = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {currentItems.map((product, idx) => (
-                <TableRow key={idx} className="md:table-row">
-                  <TableCell className="flex items-center mr-10 space-x-4">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-12 h-12 object-cover rounded-md"
-                    />
-                    <div className="flex flex-col">
-                      <p className="font-medium">{product.name}</p>
-                      <p className="hidden md:block text-sm text-gray-500 text-wrap">
-                        {product.description}
+              {currentItems.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={6} className="py-8 text-center">
+                    <div className="flex flex-col items-center justify-center gap-2 text-gray-500">
+                      <PackageX className="w-8 h-8 sm:w-10 sm:h-10 text-gray-400" />
+                      <p className="text-sm sm:text-base font-medium">
+                        No products available
+                      </p>
+                      <p className="text-xs sm:text-sm text-gray-400">
+                        Try adding a new product to get started.
                       </p>
                     </div>
                   </TableCell>
-                  <TableCell>IDR {product.price}</TableCell>
-                  <TableCell>{product.stock} items</TableCell>
-                  <TableCell>{product.sold} this month</TableCell>
-                  <TableCell>{product.prediction.restockDate}</TableCell>
-                  <TableCell>
-                    {/* Availability with Dynamic Colors */}
-                    <div className="flex items-center space-x-2">
-                      <div className="relative w-16 sm:w-24 h-3 bg-gray-300 rounded-full overflow-hidden">
-                        <div
-                          className={`absolute top-0 left-0 h-full rounded-full ${
-                            product.prediction.availability.percentage > 70
-                              ? "bg-green-500"
-                              : product.prediction.availability.percentage > 30
-                              ? "bg-yellow-500"
-                              : "bg-red-500"
-                          }`}
-                          style={{
-                            width: `${product.prediction.availability.percentage}%`,
-                          }}
-                        ></div>
-                      </div>
-
-                      <span
-                        className={`text-sm font-semibold ${
-                          product.prediction.availability.percentage > 70
-                            ? "text-green-600"
-                            : product.prediction.availability.percentage > 30
-                            ? "text-yellow-600"
-                            : "text-red-600"
-                        }`}
-                      >
-                        {product.prediction.availability.percentage}%
-                      </span>
-                    </div>
-                  </TableCell>
                 </TableRow>
-              ))}
+              ) : (
+                currentItems.map((product, idx) => (
+                  <TableRow key={idx} className="md:table-row">
+                    <TableCell className="flex items-center mr-10 space-x-4">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-12 h-12 object-cover rounded-md"
+                      />
+                      <div className="flex flex-col">
+                        <p className="font-medium">{product.name}</p>
+                        <p className="hidden md:block text-sm text-gray-500 text-wrap">
+                          {product.description}
+                        </p>
+                      </div>
+                    </TableCell>
+                    <TableCell>IDR {product.price}</TableCell>
+                    <TableCell>{product.stock} items</TableCell>
+                    <TableCell>{product.sold} this month</TableCell>
+                    <TableCell>{product.prediction.restockDate}</TableCell>
+                    <TableCell>
+                      {/* Availability with Dynamic Colors */}
+                      <div className="flex items-center space-x-2">
+                        <div className="relative w-16 sm:w-24 h-3 bg-gray-300 rounded-full overflow-hidden">
+                          <div
+                            className={`absolute top-0 left-0 h-full rounded-full ${
+                              product.prediction.availability.percentage > 70
+                                ? "bg-green-500"
+                                : product.prediction.availability.percentage >
+                                  30
+                                ? "bg-yellow-500"
+                                : "bg-red-500"
+                            }`}
+                            style={{
+                              width: `${product.prediction.availability.percentage}%`,
+                            }}
+                          ></div>
+                        </div>
+
+                        <span
+                          className={`text-sm font-semibold ${
+                            product.prediction.availability.percentage > 70
+                              ? "text-green-600"
+                              : product.prediction.availability.percentage > 30
+                              ? "text-yellow-600"
+                              : "text-red-600"
+                          }`}
+                        >
+                          {product.prediction.availability.percentage}%
+                        </span>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </div>
@@ -160,7 +174,8 @@ const AllProducts = () => {
             Previous
           </Button>
           <span className="text-sm">
-            Page {currentPage} of {Math.ceil(products.length / itemsPerPage)}
+            Page {currentPage} of{" "}
+            {Math.max(1, Math.ceil(products.length / itemsPerPage))}
           </span>
           <Button
             variant="outline"
