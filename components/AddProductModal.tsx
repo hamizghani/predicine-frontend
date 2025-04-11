@@ -9,8 +9,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { useIndexedDB } from "@/hooks/useIndexedDB";
-import { Medicine } from "@/types/medicine";
+import { useIndexedDB } from "@/hooks/UseIndexedDB";
+import { TMedicine } from "@/types/product";
 import { useState } from "react";
 import { Product } from "@/types/product";
 import { DialogClose } from "@radix-ui/react-dialog";
@@ -31,7 +31,7 @@ export default function AddProductModal({
   medicine,
   triggerElement,
 }: {
-  medicine: Medicine;
+  medicine: TMedicine;
   triggerElement: React.ReactNode;
 }) {
   const { addItem: addProduct } = useIndexedDB<Product>("products");

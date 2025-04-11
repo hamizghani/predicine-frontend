@@ -18,7 +18,7 @@ export default function SignupPage() {
 
   useEffect(()=> {
     if (auth.authenticated) return router.push('/')
-  }, [])
+  }, [auth.authenticated])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
