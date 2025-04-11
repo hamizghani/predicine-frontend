@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 import LayoutWrapper from "@/components/LayoutWrapper"; // New client-side component
 import "./globals.css";
 
@@ -26,6 +27,8 @@ export default function RootLayout({
       </head>
       <body className={`${poppins.variable} antialiased`}>
         {/* Delegate rendering logic to a client-side component */}
+        <Toaster position="top-center" reverseOrder={false} />
+
         <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>

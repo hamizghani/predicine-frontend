@@ -1,6 +1,7 @@
 "use client";
+import { AuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FaDownload } from "react-icons/fa";
 import { FiChevronDown, FiLogOut } from "react-icons/fi";
 
@@ -10,11 +11,12 @@ const ProfileSection = () => {
   const [periodOpen, setPeriodOpen] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState("Select Period"); // Default text
 
+  const { auth, setAuth } = useContext(AuthContext);
   const periods = ["Last 7 Days", "Last 30 Days", "Last 3 Months", "Last Year"];
 
   const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn"); // Clear login state
-    router.push("/login"); // Redirect to login page
+    setAuth({ authenticated: false });
+    router.push("/login");
   };
 
   return (

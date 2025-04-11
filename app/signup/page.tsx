@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "@/context/AuthContext";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function SignupPage() {
   const [username, setUsername] = useState("");
@@ -14,29 +15,50 @@ export default function SignupPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
-  const {auth, setAuth} = useContext(AuthContext)
+  const { auth, setAuth } = useContext(AuthContext);
+  const validRegions = ["Jawa", "Kalimantan", "Sumatra", "Sulawesi", "Papua"];
 
-  useEffect(()=> {
-    if (auth.authenticated) return router.push('/')
-  }, [auth.authenticated])
+  useEffect(() => {
+    if (auth.authenticated) return router.push("/");
+  }, [auth.authenticated]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    axios({
-      url: `${process.env.NEXT_PUBLIC_API_URL}/api/user/create`,
-      method: 'POST',
-      data: {
+    // ✅ Validation checks
+    if (!username || !name || !region || !password || !confirmPassword) {
+      return toast.error("Please fill out all fields.");
+    }
+
+    if (password !== confirmPassword) {
+      return toast.error("Passwords do not match.");
+    }
+
+    if (password.length < 8) {
+      return toast.error("Password must be at least 8 characters.");
+    }
+
+    if (!validRegions.includes(region)) {
+      return toast.error(
+        "Region must be one of: Jawa, Kalimantan, Sumatra, Sulawesi, or Papua."
+      );
+    }
+
+    try {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/user/create`, {
         username,
         password,
         region,
-        name
-      }
-    }).then(() => {
-      router.push('/login')
-    }).catch((error) => {
-      console.log(error)
-    })
+        name,
+      });
+
+      toast.success("Account created successfully!");
+      router.push("/login");
+    } catch (error: any) {
+      const message = error?.response?.data?.message || "Signup failed.";
+      toast.error(message);
+      console.error(error);
+    }
   };
 
   return (
@@ -92,14 +114,22 @@ export default function SignupPage() {
             />
           </div>
           <div className="w-full">
-            <input
-              type="text"
-              placeholder="Region"
+            <select
               value={region}
               onChange={(e) => setRegion(e.target.value)}
-              className="w-full border-b-2 border-gray-500 focus:outline-none focus:border-[#898CDC] font-medium py-3 sm:py-4 text-gray-700 text-sm sm:text-base"
-            />
+              className="w-full border-b-2 border-gray-500 focus:outline-none focus:border-[#898CDC] font-medium py-3 sm:py-4 text-gray-700 text-sm sm:text-base bg-white"
+            >
+              <option value="" disabled>
+                Select region
+              </option>
+              <option value="Jawa">Jawa</option>
+              <option value="Kalimantan">Kalimantan</option>
+              <option value="Sumatra">Sumatra</option>
+              <option value="Sulawesi">Sulawesi</option>
+              <option value="Papua">Papua</option>
+            </select>
           </div>
+
           <div className="w-full">
             <input
               type="password"

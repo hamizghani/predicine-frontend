@@ -46,7 +46,6 @@ export default function RecommendedProductSection() {
             <TableHeader>
               <TableRow>
                 <TableHead>Products</TableHead>
-                <TableHead>Price</TableHead>
                 <TableHead>Quantity needed</TableHead>
                 <TableHead>Action</TableHead>
               </TableRow>
@@ -67,7 +66,6 @@ export default function RecommendedProductSection() {
                       </p>
                     </div>
                   </TableCell>
-                  <TableCell>IDR {product.price}</TableCell>
                   <TableCell>{product.stock} items</TableCell>
                   <TableCell>
                     <AddProductModal
