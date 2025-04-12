@@ -108,12 +108,12 @@ const ProductSectionModal = ({ userPrice }: { userPrice: number[] }) => {
           sold: stock.sold,
           batches: stock.batches ?? [],
           prediction: {
-            restockDate: "Unknown",
+            restockDate: "Calibrating",
             availability: {
               percentage: Math.round(
                 (stock.total / (stock.total + stock.sold || 1)) * 100
               ),
-              status: "Unknown",
+              status: "In Stock",
             },
           },
         }));
