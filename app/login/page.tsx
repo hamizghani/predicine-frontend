@@ -36,7 +36,7 @@ export default function LoginPage() {
       })
       .catch((error) => {
         toast.error("Login failed");
-        setError(error); // optional, for inline rendering
+        setError(error.message); // optional, for inline rendering
       });
   };
 
