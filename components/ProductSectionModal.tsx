@@ -30,6 +30,7 @@ import SellProductModal from "./SellProductModal";
 import GeneralAddProductModal from "./GeneralAddProductModal";
 import { useProductRefresh } from "@/context/ProductRefreshContext";
 import EditBatchModal from "./EditBatchModal";
+import DownlaodHistory from "./DownloadHistory";
 
 interface StockBatch {
   id: number;
@@ -135,12 +136,7 @@ const ProductSectionModal = ({ userPrice }: { userPrice: number[] }) => {
           Products
         </h2>
         <div className="flex flex-wrap justify-center sm:justify-end items-center gap-2">
-          <Button
-            variant="outline"
-            className="flex items-center cursor-pointer"
-          >
-            <Download className="w-4 h-4 mr-2" /> Download Report
-          </Button>
+          <DownlaodHistory period=""/>
           <Input
             placeholder="Search..."
             className="w-full sm:w-48"
