@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import { FiDownload, FiChevronDown, FiLogOut, FiUpload } from "react-icons/fi";
 import axios from "axios";
 import ChangePasswordModal from "./ChangePasswordModal";
+import UploadHistory from "./UploadHistory";
 
 interface Medicine {
   id: number;
@@ -227,6 +228,10 @@ const ProfileSection = () => {
     downloadCSV(csv, "exported_data.csv");
   };
 
+  const handleImport = async() => {
+
+  }
+
   return (
     <div
       className="rounded-xl flex flex-col items-center justify-start gap-6 py-10 px-4 sm:px-6 md:px-10 bg-cover bg-center min-h-screen"
@@ -376,12 +381,13 @@ const ProfileSection = () => {
           </button>
         </div>
         <button
-          // onClick={handle??}
+          onClick={handleImport}
           className="cursor-pointer my-4 hover:opacity-70 flex items-center justify-center gap-2 px-4 py-2 bg-[#6B6EAC] text-white rounded-lg w-full"
         >
           <FiUpload />
           Import Data
         </button>
+        <UploadHistory/>
       </div>
     </div>
   );
