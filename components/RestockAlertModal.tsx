@@ -16,7 +16,7 @@ const RestockAlertModal = () => {
               className="flex justify-between items-center text-white"
             >
               <span className="text-sm sm:text-base">{alert.name}</span>
-              <span className="bg-[#FF5A65] text-red-800 opacity-75 text-xs sm:text-sm px-2 py-1 font-medium rounded">
+              <span className="bg-[#f8939a] text-red-800 opacity-75 text-xs sm:text-sm px-2 py-1 font-medium rounded">
                 {alert.quantity} items left
               </span>
             </li>

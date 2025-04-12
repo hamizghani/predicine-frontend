@@ -273,7 +273,7 @@ const ProductSectionModal = ({ userPrice }: { userPrice: number[] }) => {
                         <DeleteProductModal
                           product={product}
                           triggerElement={
-                            <button className="cursor-pointer flex items-center justify-center gap-2 w-20 sm:w-24 text-sm px-1 sm:px-3 py-1 sm:py-2 bg-red-500 text-white rounded hover:bg-red-600 transition">
+                            <button className="cursor-pointer border-2 flex items-center justify-center gap-2 w-20 sm:w-24 text-sm px-1 sm:px-3 py-1 sm:py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition">
                               <Trash2 className="w-4 h-4" />
                               Delete
                             </button>
@@ -306,7 +306,7 @@ const ProductSectionModal = ({ userPrice }: { userPrice: number[] }) => {
                     <TableRow>
                       <TableCell colSpan={7} className="bg-gray-50 py-4">
                         <div className="space-y-3 ">
-                          <p className="ml-4 w-fit rounded-xl font-medium bg-[#0B1739] text-white px-4 py-2">
+                          <p className="ml-4 w-fit rounded-xl font-medium bg-[#2A2E60] text-white px-4 py-2">
                             <strong>Batches</strong>
                           </p>
                           <div className="space-y-2">
