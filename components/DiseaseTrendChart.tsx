@@ -30,8 +30,6 @@ const colours = ["#CB3CFF", "#9A91FB", "#00C2FF"];
 const trendingDiseases = ["DBD", "Diarrhea", "Hepatitis"];
 
 const DiseaseTrendChart = () => {
-  const lastIndex = data.length - 1;
-
   return (
     <div className="bg-[#0B1739] p-4 rounded-lg shadow-md">
       <h3 className="text-white text-lg font-semibold mb-4">

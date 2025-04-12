@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { toast } from "react-hot-toast";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,13 +14,20 @@ import {
 
 import rawData from "@/mockup/medicine.json";
 import AddProductModal from "./AddProductModal";
-import { Medicine } from "@/types/Medicine";
+import { Medicine } from "@/types/medicine";
 import { Sparkle } from "lucide-react";
 import { useProductRefresh } from "@/context/ProductRefreshContext";
 
-// Build medicine map from raw JSON
+interface RawMedicine {
+  id: number;
+  medicine_name: string;
+  description: string;
+  brief: string;
+  photo_link: string;
+}
+
 const medicineMap: Record<number, Medicine> = Object.fromEntries(
-  (rawData as any[]).map((item) => [
+  (rawData as RawMedicine[]).map((item) => [
     item.id,
     {
       id: item.id,
@@ -44,7 +50,6 @@ export default function RecommendedProductSection() {
 
   useEffect(() => {
     const fetchRecommendations = async () => {
-      const toastId = toast.loading("Loading recommendations...");
       try {
         const res = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/api/prediction/recommended`
@@ -66,7 +71,6 @@ export default function RecommendedProductSection() {
         setProducts(mapped);
       } catch (err) {
         console.error(err);
-        toast.error("Failed to load recommendations", { id: toastId });
       }
     };
 

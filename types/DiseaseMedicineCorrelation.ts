@@ -1,6 +1,5 @@
 import { Disease } from "./Disease";
-import { Medicine } from "./Medicine";
-
+import { Medicine } from "./medicine";
 
 export interface DiseaseMedicineCorrelation {
   id: number;

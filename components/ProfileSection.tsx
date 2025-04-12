@@ -2,12 +2,13 @@
 import { AuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
-import { FiDownload, FiChevronDown, FiLogOut, FiUpload } from "react-icons/fi";
+import { FiDownload, FiChevronDown, FiLogOut } from "react-icons/fi";
 import axios from "axios";
 import ChangePasswordModal from "./ChangePasswordModal";
 import UploadHistory from "./UploadHistory";
 import toast from "react-hot-toast";
 
+// Define types for Medicine and Transaction
 interface Medicine {
   id: number;
   name: string;
@@ -27,6 +28,7 @@ interface Transaction {
   medicine: Medicine;
 }
 
+// Updated function with correct type for the transactions filter
 const filterByPeriod = (
   transactions: Transaction[],
   period: string
@@ -154,11 +156,18 @@ const ProfileSection = () => {
         }
       );
       toast.success("Profile updated successfully!");
-    } catch (error) {
-      toast.error("Failed to save changes.");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.log(error.message); // Access properties of the Error object safely
+        toast.error("Failed to save changes.");
+      } else {
+        console.log(error); // Handle non-Error cases
+        toast.error("An unexpected error occurred.");
+      }
     }
   };
 
+  // Corrected type for ExportRow
   type ExportRow = {
     id: number;
     medicineName: string;
@@ -179,11 +188,13 @@ const ProfileSection = () => {
       ...data.map((row) =>
         headers
           .map((field) => {
-            const cell = (row as Record<string, any>)[field];
-            return typeof cell === "string" &&
-              (cell.includes(",") || cell.includes("\n"))
-              ? `"${cell.replace(/"/g, '""')}"`
-              : cell;
+            const cell = row[field as keyof ExportRow]; // Use keyof for better type safety
+            const cellToWrite =
+              cell instanceof Date ? cell.toISOString() : cell;
+            return typeof cellToWrite === "string" &&
+              (cellToWrite.includes(",") || cellToWrite.includes("\n"))
+              ? `"${cellToWrite.replace(/"/g, '""')}"`
+              : cellToWrite;
           })
           .join(",")
       ),
@@ -320,30 +331,30 @@ const ProfileSection = () => {
       </div>
 
       {/* Report Section */}
-      <div className="bg-white w-full max-w-md sm:max-w-2xl p-6 rounded-lg shadow-md border">
-        <div className="text-center mb-4">
-          <h3 className="text-xl font-semibold">Transaction Report</h3>
-          <p className="text-gray-600 mt-1 text-sm">
-            View your transaction summary by selecting a period. Download the
-            report or explore the full details.
-          </p>
-        </div>
-        <div className="mt-4 text-center">
-          <h4 className="font-semibold mb-2">Time Period</h4>
-          <button
+      <div className="bg-white w-full max-w-md sm:max-w-2xl p-6 rounded-lg shadow-md border mt-8">
+        <h2 className="text-xl font-semibold mb-4">Report</h2>
+        <button
+          onClick={() => router.push("/history")}
+          className="cursor-pointer hover:opacity-70 px-4 my-2 py-2 bg-[#6A5CED] text-white rounded-lg w-full"
+        >
+          See Details
+        </button>
+        <div>
+          <label className="block text-gray-600 mb-1">Filter by period</label>
+          <div
+            className="flex justify-between items-center border rounded-lg px-4 py-2 cursor-pointer"
             onClick={() => setPeriodOpen(!periodOpen)}
-            className="cursor-pointer flex items-center justify-center mx-auto px-4 py-2 bg-gray-200 rounded"
           >
-            {selectedPeriod}
+            {selectedPeriod || "Select Period"}
             <FiChevronDown
               className={`ml-2 transition-transform ${
                 periodOpen ? "rotate-180" : ""
               }`}
             />
-          </button>
+          </div>
 
           {periodOpen && (
-            <div className="absolute w-fit border ml-15 -mt-20 bg-white z-10 rounded shadow">
+            <div className="absolute w-full border mt-1 bg-white z-10 rounded shadow">
               {periods.map((period) => (
                 <div
                   key={period}
@@ -359,24 +370,19 @@ const ProfileSection = () => {
             </div>
           )}
         </div>
-        <div className="flex flex-col sm:flex-row gap-4 mt-6">
+
+        <div className="flex justify-end mt-6">
           <button
             onClick={handleExport}
-            className="cursor-pointer hover:opacity-70 flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 text-white rounded-lg w-full"
+            className="cursor-pointer flex items-center justify-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg"
           >
             <FiDownload />
-            Download
-          </button>
-          <button
-            onClick={() => router.push("/history")}
-            className="cursor-pointer hover:opacity-70 px-4 py-2 bg-[#6A5CED] text-white rounded-lg w-full"
-          >
-            See Details
+            Export Data
           </button>
         </div>
-
-        <UploadHistory />
       </div>
+
+      <UploadHistory />
     </div>
   );
 };

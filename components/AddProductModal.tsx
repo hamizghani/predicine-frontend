@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -13,8 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
-import { Medicine } from "@/types/Medicine";
-import toast from "react-hot-toast";
+import { Medicine } from "@/types/medicine";
 import { useProductRefresh } from "@/context/ProductRefreshContext";
 
 // Utility to get date 6 months from now
@@ -77,7 +76,7 @@ export default function AddProductModal({
         <DialogHeader>
           <DialogTitle>Add {medicine.name}</DialogTitle>
           <DialogDescription>
-            Specify how many items you're adding and their expiration date.
+            Specify how many items you&apos;re adding and their expiration date.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">

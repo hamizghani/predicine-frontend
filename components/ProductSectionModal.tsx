@@ -21,7 +21,6 @@ import {
   ChevronDown,
   ChevronUp,
   Package,
-  Download,
 } from "lucide-react";
 
 import DeleteProductModal from "@/components/DeleteProductModal";
@@ -32,7 +31,7 @@ import { useProductRefresh } from "@/context/ProductRefreshContext";
 import EditBatchModal from "./EditBatchModal";
 import DownlaodHistory from "./DownloadHistory";
 
-interface StockBatch {
+interface Batch {
   id: number;
   expirationDate: Date;
   amount: number;
@@ -56,14 +55,23 @@ interface Product {
       status: string;
     };
   };
-  batches: StockBatch[];
+  batches: Batch[];
 }
 
+type Stock = {
+  medicine: {
+    id: number;
+    name: string;
+    description: string;
+    brief: string;
+    imageUrl: string;
+  };
+  total: number;
+  sold: number;
+  batches?: Batch[]; // define Batch if needed
+};
+
 const ProductSectionModal = ({ userPrice }: { userPrice: number[] }) => {
-  const [editedPrices, setEditedPrices] = useState<{ [key: number]: number }>(
-    {}
-  );
-  const [editableIndex, setEditableIndex] = useState<number | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -87,7 +95,7 @@ const ProductSectionModal = ({ userPrice }: { userPrice: number[] }) => {
           }
         );
 
-        const formatted: Product[] = res.data.stocks.map((stock: any) => ({
+        const formatted: Product[] = res.data.stocks.map((stock: Stock) => ({
           id: stock.medicine.id,
           name: stock.medicine.name,
           description: stock.medicine.description,

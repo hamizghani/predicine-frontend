@@ -1,5 +1,5 @@
 import { ForecastedUserStock } from "./ForecastedUserStock";
-import { Medicine } from "./Medicine";
+import { Medicine } from "./medicine";
 import { StockBatch } from "./StockBatch";
 
 export interface UserStock {

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import DiseaseTrendChart from "@/components/DiseaseTrendChart";
 import MedicineTrendChart from "@/components/MedicineTrendChart";
 import RecommendedProductSection from "@/components/RecommendedProductSection";
-import { Checkbox } from "@/components/ui/checkbox";
 import { format, parseISO } from "date-fns";
 import axios from "axios";
 
@@ -24,13 +23,6 @@ interface Transaction {
   userId: number;
   price: number;
   medicine: Medicine;
-}
-
-interface MedicineStats {
-  id: number;
-  name: string;
-  totalSold: number;
-  totalRevenue: number;
 }
 
 const Analytics = () => {
@@ -134,28 +126,32 @@ const Analytics = () => {
         </div>
 
         <div className="overflow-x-auto w-full md:w-1/2">
-          <table className="my-5 w-full bg-white rounded-lg shadow">
-            <thead>
-              <tr className="border-b">
-                <th className="py-3 px-4 text-left">Medicine</th>
-                <th className="py-3 px-4 text-left">Total Sales</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Object.entries(
-                transactions.reduce((acc, tx) => {
-                  acc[tx.medicine.name] =
-                    (acc[tx.medicine.name] || 0) + tx.amount;
-                  return acc;
-                }, {} as Record<string, number>)
-              ).map(([name, total]) => (
-                <tr key={name} className="border-b">
-                  <td className="py-3 px-4 font-medium">{name}</td>
-                  <td className="py-3 px-4 text-gray-700">{total} units</td>
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <table className="my-5 w-full bg-white rounded-lg shadow">
+              <thead>
+                <tr className="border-b">
+                  <th className="py-3 px-4 text-left">Medicine</th>
+                  <th className="py-3 px-4 text-left">Total Sales</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {Object.entries(
+                  transactions.reduce((acc, tx) => {
+                    acc[tx.medicine.name] =
+                      (acc[tx.medicine.name] || 0) + tx.amount;
+                    return acc;
+                  }, {} as Record<string, number>)
+                ).map(([name, total]) => (
+                  <tr key={name} className="border-b">
+                    <td className="py-3 px-4 font-medium">{name}</td>
+                    <td className="py-3 px-4 text-gray-700">{total} units</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </div>

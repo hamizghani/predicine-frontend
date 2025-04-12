@@ -1,4 +1,4 @@
-import { Medicine } from "./Medicine";
+import { Medicine } from "./medicine";
 
 export interface TransactionHistory {
   id: number;

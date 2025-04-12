@@ -76,7 +76,7 @@ export default function DeleteProductModal({
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <p className="text-sm text-gray-600">
-            You're about to delete stock for{" "}
+            You&apos;re about to delete stock for{" "}
             <span className="font-semibold text-black">{product.name}</span>.
             You currently have{" "}
             <span className="font-semibold">{currentStock}</span> in stock.

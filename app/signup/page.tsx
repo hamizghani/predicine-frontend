@@ -15,7 +15,7 @@ export default function SignupPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
-  const { auth, setAuth } = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
   const validRegions = ["Jawa", "Kalimantan", "Sumatra", "Sulawesi", "Papua"];
 
   useEffect(() => {
@@ -54,10 +54,12 @@ export default function SignupPage() {
 
       toast.success("Account created successfully!");
       router.push("/login");
-    } catch (error: any) {
-      const message = error?.response?.data?.message || "Signup failed.";
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { message?: string } } };
+      const message = err?.response?.data?.message || "Signup failed.";
       toast.error(message);
       console.error(error);
+      setError(message);
     }
   };
 

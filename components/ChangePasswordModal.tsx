@@ -52,6 +52,7 @@ export default function ChangePasswordModal({
         toast.error("Failed to change password");
       }
     } catch (err) {
+      console.error(err);
       toast.error("Incorrect current password");
     } finally {
       setLoading(false);

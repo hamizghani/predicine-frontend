@@ -22,7 +22,7 @@ const Sidebar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false); // Search bar state
   const pathname = usePathname(); // Get the current pathname
 
-  const { auth, setAuth } = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
 
   //   // Load `isOpen` from local storage when the component mounts
   //   useEffect(() => {

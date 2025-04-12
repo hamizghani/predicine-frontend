@@ -1,8 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Settings, ArrowLeft, Bell, CircleUserRound } from "lucide-react";
-import Link from "next/link";
+import { ArrowLeft, CircleUserRound } from "lucide-react";
 import axios from "axios";
 
 const Navbar = () => {

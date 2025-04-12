@@ -36,7 +36,7 @@ export default function LoginPage() {
       })
       .catch((error) => {
         toast.error("Login failed");
-        setError("Login failed"); // optional, for inline rendering
+        setError(error); // optional, for inline rendering
       });
   };
 
@@ -68,11 +68,8 @@ export default function LoginPage() {
           onSubmit={handleSubmit}
           className="space-y-3 sm:space-y-4 w-full px-4 sm:px-8 flex flex-col items-center"
         >
-          {error && (
-            <p className="text-red-500 text-xs sm:text-sm font-medium">
-              {error}
-            </p>
-          )}
+          {error && <p className="text-red-500">{error}</p>}
+
           <div className="w-full">
             <input
               type="text"
@@ -103,7 +100,7 @@ export default function LoginPage() {
             href="/signup"
             className="text-center text-gray-500 cursor-pointer text-xs sm:text-sm hover:underline w-full"
           >
-            Don't have an account?{" "}
+            Don`t have an account?{" "}
             <span className="text-[#6B6EAC] underline">Sign up</span>
           </Link>
         </form>

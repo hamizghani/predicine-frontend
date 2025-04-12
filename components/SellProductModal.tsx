@@ -77,7 +77,7 @@ export default function SellProductModal({
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <p className="text-sm text-gray-600">
-            You're about to sell{" "}
+            You&apos;re about to sell{" "}
             <span className="font-semibold text-black">{product.name}</span>.
             You currently have{" "}
             <span className="font-semibold">{currentStock}</span> in stock.{" "}
