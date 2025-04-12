@@ -6,6 +6,7 @@ import { FiDownload, FiChevronDown, FiLogOut, FiUpload } from "react-icons/fi";
 import axios from "axios";
 import ChangePasswordModal from "./ChangePasswordModal";
 import UploadHistory from "./UploadHistory";
+import toast from "react-hot-toast";
 
 interface Medicine {
   id: number;
@@ -75,6 +76,7 @@ const ProfileSection = () => {
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     setAuth({ authenticated: false });
+    toast.success("Logged out!");
     router.push("/login");
   };
 
@@ -145,18 +147,15 @@ const ProfileSection = () => {
         {
           name: companyName,
           region: selectedRegion,
-          password: "", // optional — can be updated later
+          password: "",
         },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
-      alert("Profile updated successfully!");
+      toast.success("Profile updated successfully!");
     } catch (error) {
-      console.error("Failed to update user:", error);
-      alert("Failed to save changes.");
+      toast.error("Failed to save changes.");
     }
   };
 
@@ -208,6 +207,11 @@ const ProfileSection = () => {
   const handleExport = async (): Promise<void> => {
     const filtered = filterByPeriod(transactions, selectedPeriod);
 
+    if (!filtered.length) {
+      toast.error("No data available to export.");
+      return;
+    }
+
     const csv = convertToCSV(
       filtered.map(
         (e): ExportRow => ({
@@ -220,17 +224,9 @@ const ProfileSection = () => {
       )
     );
 
-    if (!csv) {
-      alert("No data available to export.");
-      return;
-    }
-
     downloadCSV(csv, "exported_data.csv");
+    toast.success("CSV downloaded!");
   };
-
-  const handleImport = async() => {
-
-  }
 
   return (
     <div
@@ -332,7 +328,6 @@ const ProfileSection = () => {
             report or explore the full details.
           </p>
         </div>
-
         <div className="mt-4 text-center">
           <h4 className="font-semibold mb-2">Time Period</h4>
           <button
@@ -364,7 +359,6 @@ const ProfileSection = () => {
             </div>
           )}
         </div>
-
         <div className="flex flex-col sm:flex-row gap-4 mt-6">
           <button
             onClick={handleExport}
@@ -380,14 +374,8 @@ const ProfileSection = () => {
             See Details
           </button>
         </div>
-        <button
-          onClick={handleImport}
-          className="cursor-pointer my-4 hover:opacity-70 flex items-center justify-center gap-2 px-4 py-2 bg-[#6B6EAC] text-white rounded-lg w-full"
-        >
-          <FiUpload />
-          Import Data
-        </button>
-        <UploadHistory/>
+
+        <UploadHistory />
       </div>
     </div>
   );

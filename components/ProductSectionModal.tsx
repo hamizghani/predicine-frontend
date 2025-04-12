@@ -136,7 +136,7 @@ const ProductSectionModal = ({ userPrice }: { userPrice: number[] }) => {
           Products
         </h2>
         <div className="flex flex-wrap justify-center sm:justify-end items-center gap-2">
-          <DownlaodHistory period=""/>
+          <DownlaodHistory period="" />
           <Input
             placeholder="Search..."
             className="w-full sm:w-48"

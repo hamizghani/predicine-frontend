@@ -1,5 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -10,22 +13,65 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import data from "@/mockup/file.json"; // Assuming mock data is available here
+import rawData from "@/mockup/medicine.json";
 import AddProductModal from "./AddProductModal";
 import { Medicine } from "@/types/Medicine";
-import { useIndexedDB } from "@/hooks/UseIndexedDB";
-import { Product } from "@/types/product";
+import { Sparkle } from "lucide-react";
+import { useProductRefresh } from "@/context/ProductRefreshContext";
+
+// Build medicine map from raw JSON
+const medicineMap: Record<number, Medicine> = Object.fromEntries(
+  (rawData as any[]).map((item) => [
+    item.id,
+    {
+      id: item.id,
+      name: item.medicine_name,
+      description: item.description,
+      brief: item.brief,
+      imageUrl: item.photo_link,
+      transactionHistory: [],
+    },
+  ])
+);
+
+type RecommendedProduct = Medicine & { quantity: number };
 
 export default function RecommendedProductSection() {
-  const { items: existingProducts } = useIndexedDB<Product>("products");
-  const [products, setProducts] = useState<Medicine[]>([]);
+  const [products, setProducts] = useState<RecommendedProduct[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+  const { trigger } = useProductRefresh();
 
   useEffect(() => {
-    const existingProductIds = existingProducts.map((e) => e.id);
-    setProducts(data.products);
-  }, [existingProducts]);
+    const fetchRecommendations = async () => {
+      const toastId = toast.loading("Loading recommendations...");
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/prediction/recommended`
+        );
+
+        const recommendations: { id: number; amount: number }[] = res.data.data;
+
+        const mapped: RecommendedProduct[] = recommendations
+          .map((rec) => {
+            const med = medicineMap[rec.id];
+            if (!med) return null;
+            return {
+              ...med,
+              quantity: rec.amount || 0,
+            };
+          })
+          .filter(Boolean) as RecommendedProduct[];
+
+        setProducts(mapped);
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to load recommendations", { id: toastId });
+      }
+    };
+
+    fetchRecommendations();
+  }, [trigger]);
 
   const currentItems = products.slice(
     (currentPage - 1) * itemsPerPage,
@@ -33,40 +79,40 @@ export default function RecommendedProductSection() {
   );
 
   return (
-    <>
-      {/* Products Section */}
-      <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-center sm:text-left">
-          Recommendations
-        </h2>
+    <div className="space-y-4">
+      <h2 className="text-lg flex gap-2 justify-center w-fit font-semibold text-center sm:text-left">
+        <Sparkle />
+        Recommendations
+      </h2>
 
-        {/* Table Section */}
-        <div className="overflow-x-auto">
-          <Table className="min-w-[600px]">
-            <TableHeader>
-              <TableRow>
-                <TableHead>Products</TableHead>
-                <TableHead>Quantity needed</TableHead>
-                <TableHead>Action</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {currentItems.map((product, idx) => (
-                <TableRow key={idx} className="md:table-row">
+      <div className="overflow-x-auto">
+        <Table className="min-w-[600px]">
+          <TableHeader>
+            <TableRow>
+              <TableHead>Products</TableHead>
+              <TableHead>Quantity needed</TableHead>
+              <TableHead>Action</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {currentItems
+              .filter((product) => product.quantity > 0)
+              .map((product, idx) => (
+                <TableRow key={idx}>
                   <TableCell className="flex items-center mr-10 space-x-4">
                     <img
-                      src={product.image}
+                      src={product.imageUrl}
                       alt={product.name}
                       className="w-12 h-12 object-cover rounded-md"
                     />
                     <div className="flex flex-col">
                       <p className="font-medium">{product.name}</p>
-                      <p className="hidden md:block text-sm text-gray-500 text-wrap">
-                        {product.description}
+                      <p className="hidden md:block text-sm text-gray-500">
+                        {product.brief}
                       </p>
                     </div>
                   </TableCell>
-                  <TableCell>{product.stock} items</TableCell>
+                  <TableCell>{product.quantity} items</TableCell>
                   <TableCell>
                     <AddProductModal
                       medicine={product}
@@ -79,35 +125,34 @@ export default function RecommendedProductSection() {
                   </TableCell>
                 </TableRow>
               ))}
-            </TableBody>
-          </Table>
-        </div>
-
-        {/* Pagination Section */}
-        <div className="flex flex-col sm:flex-row justify-between items-center mt-4 gap-4">
-          <Button
-            variant="outline"
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            disabled={currentPage === 1}
-          >
-            Previous
-          </Button>
-          <span className="text-sm">
-            Page {currentPage} of {Math.ceil(products.length / itemsPerPage)}
-          </span>
-          <Button
-            variant="outline"
-            onClick={() =>
-              setCurrentPage((prev) =>
-                Math.min(prev + 1, Math.ceil(products.length / itemsPerPage))
-              )
-            }
-            disabled={currentPage === Math.ceil(products.length / itemsPerPage)}
-          >
-            Next
-          </Button>
-        </div>
+          </TableBody>
+        </Table>
       </div>
-    </>
+
+      {/* Pagination */}
+      <div className="flex flex-col sm:flex-row justify-between items-center mt-4 gap-4">
+        <Button
+          variant="outline"
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </Button>
+        <span className="text-sm">
+          Page {currentPage} of {Math.ceil(products.length / itemsPerPage)}
+        </span>
+        <Button
+          variant="outline"
+          onClick={() =>
+            setCurrentPage((prev) =>
+              Math.min(prev + 1, Math.ceil(products.length / itemsPerPage))
+            )
+          }
+          disabled={currentPage === Math.ceil(products.length / itemsPerPage)}
+        >
+          Next
+        </Button>
+      </div>
+    </div>
   );
 }

@@ -42,7 +42,6 @@ export default function AddProductModal({
     today.setHours(0, 0, 0, 0); // remove time part
 
     const selected = new Date(expirationDate);
-    console.log(today, "+", selected);
     selected.setHours(0, 0, 0, 0);
 
     return qty > 0 && expirationDate !== "" && selected > today;

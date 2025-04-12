@@ -1,7 +1,7 @@
 import React from "react";
 import {
-  LineChart,
-  Line,
+  BarChart,
+  Bar,
   CartesianGrid,
   XAxis,
   YAxis,
@@ -9,60 +9,86 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const data = [
-  { name: "Jan", DBD: 260, Diarrhea: 510, Hepatitis: 400 },
-  { name: "Feb", DBD: 320, Diarrhea: 420, Hepatitis: 410 },
-  { name: "Mar", DBD: 470, Diarrhea: 450, Hepatitis: 420 },
-  { name: "Apr", DBD: 480, Diarrhea: 340, Hepatitis: 430 },
-  { name: "May", DBD: 260, Diarrhea: 250, Hepatitis: 440 },
-];
+interface TrendData {
+  name: string;
+  [key: string]: number | string;
+}
 
-const DiseaseTrendChart = () => (
-  <div className="bg-[#0B1739] p-4 rounded-lg shadow-md">
-    <h3 className="text-white text-lg font-semibold mb-4">
-      Medicine Trend Over Time
-    </h3>
-    <ResponsiveContainer width="100%" height={300}>
-      <LineChart data={data}>
-        {/* DBD Line */}
-        <Line
-          type="monotone"
-          dataKey="DBD"
-          stroke="#CB3CFF"
-          strokeWidth={2}
-          dot={{ fill: "#CB3CFF", r: 4 }}
-        />
-        {/* Diarrhea Line */}
-        <Line
-          type="monotone"
-          dataKey="Diarrhea"
-          stroke="#9A91FB"
-          strokeWidth={2}
-          dot={{ fill: "#9A91FB", r: 4 }}
-        />
-        {/* Hepatitis Line */}
-        <Line
-          type="monotone"
-          dataKey="Hepatitis"
-          stroke="#00C2FF"
-          strokeWidth={2}
-          dot={{ fill: "#00C2FF", r: 4 }}
-        />
-        <CartesianGrid stroke="#2A2E60" strokeDasharray="3 3" />
-        <XAxis dataKey="name" stroke="#AAB4FF" tick={{ fill: "#AAB4FF" }} />
-        <YAxis stroke="#AAB4FF" tick={{ fill: "#AAB4FF" }} />
-        <Tooltip
-          contentStyle={{
-            backgroundColor: "#1C2A4A",
-            borderColor: "#42A5F5",
-            color: "#fff",
-          }}
-          itemStyle={{ color: "#fff" }}
-          labelStyle={{ color: "#AAB4FF" }}
-        />
-      </LineChart>
-    </ResponsiveContainer>
-  </div>
-);
+const MedicineTrendChart = ({ data }: { data: TrendData[] }) => {
+  // Define month order for proper sorting
+  const monthOrder: { [key: string]: number } = {
+    Jan: 1,
+    Feb: 2,
+    Mar: 3,
+    Apr: 4,
+    May: 5,
+    Jun: 6,
+    Jul: 7,
+    Aug: 8,
+    Sep: 9,
+    Oct: 10,
+    Nov: 11,
+    Dec: 12,
+  };
 
-export default DiseaseTrendChart;
+  // Sort the data by month order
+  const sortedData = [...data].sort((a, b) => {
+    return monthOrder[a.name as string] - monthOrder[b.name as string];
+  });
+
+  console.log("Sorted Data:", sortedData); // Debugging: Check the sorted data
+
+  // Make sure each month has data for all medicines
+  const medicines = new Set(
+    sortedData.flatMap((item) =>
+      Object.keys(item).filter((key) => key !== "name")
+    )
+  );
+  // Helper function to get dynamic colors for the bars
+  const getBarColor = (index: number): string => {
+    const colors = ["#CB3CFF", "#9A91FB", "#00C2FF", "#4CAF50", "#FF9800"];
+    return colors[index % colors.length];
+  };
+
+  return (
+    <div className="bg-[#0B1739] p-4 rounded-lg shadow-md">
+      <h3 className="text-white text-lg font-semibold mb-4">
+        Medicine Trend Over Time
+      </h3>
+
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart data={sortedData}>
+          {/* Add bars for all medicines, excluding "Ibuprofen" */}
+          {Array.from(medicines)
+            .filter((medicine) => medicine !== "Ibuprofen") // Exclude Ibuprofen
+            .map((medicine, index) => (
+              <Bar
+                key={medicine}
+                dataKey={medicine}
+                fill={getBarColor(index)} // Dynamic color
+                barSize={30} // Adjust the bar size for better visibility
+                fillOpacity={1} // Ensure full opacity to avoid the hover color change
+                isAnimationActive={false} // Optional: Disables animation for smoother hover effect
+              />
+            ))}
+
+          <CartesianGrid stroke="#2A2E60" strokeDasharray="3 3" />
+          <XAxis dataKey="name" stroke="#AAB4FF" tick={{ fill: "#AAB4FF" }} />
+          <YAxis stroke="#AAB4FF" tick={{ fill: "#AAB4FF" }} />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: "#1C2A4A",
+              borderColor: "#42A5F5",
+              color: "#fff",
+            }}
+            itemStyle={{ color: "#fff" }}
+            labelStyle={{ color: "#AAB4FF" }}
+            cursor={false} // Prevent the cursor from affecting the entire chart
+          />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+};
+
+export default MedicineTrendChart;
