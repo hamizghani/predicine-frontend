@@ -84,7 +84,7 @@ const TransactionHistoryTable = () => {
                     src={tx.medicine.imageUrl}
                     alt={tx.medicine.name}
                     className="w-10 h-10 object-cover rounded-md"
-                  />
+                  />  
                   <div className="flex flex-col">
                     <p className="font-medium truncate">{tx.medicine.name}</p>
                     <p className="hidden md:block text-xs text-gray-500 truncate">

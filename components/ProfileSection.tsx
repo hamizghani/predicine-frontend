@@ -2,7 +2,7 @@
 import { AuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
-import { FiDownload, FiChevronDown, FiLogOut } from "react-icons/fi";
+import { FiDownload, FiChevronDown, FiLogOut, FiUpload } from "react-icons/fi";
 import axios from "axios";
 import ChangePasswordModal from "./ChangePasswordModal";
 
@@ -25,7 +25,10 @@ interface Transaction {
   medicine: Medicine;
 }
 
-const filterByPeriod = (transactions: Transaction[], period: string): Transaction[] => {
+const filterByPeriod = (
+  transactions: Transaction[],
+  period: string
+): Transaction[] => {
   const now = new Date();
   let fromDate: Date;
 
@@ -46,9 +49,8 @@ const filterByPeriod = (transactions: Transaction[], period: string): Transactio
       return transactions; // No filter if "Select Period"
   }
 
-  return transactions.filter(tx => new Date(tx.createdAt) >= fromDate);
+  return transactions.filter((tx) => new Date(tx.createdAt) >= fromDate);
 };
-
 
 const ProfileSection = () => {
   const router = useRouter();
@@ -99,7 +101,6 @@ const ProfileSection = () => {
       }
     };
 
-    
     const fetchUser = async () => {
       try {
         const res = await axios.get(
@@ -120,7 +121,7 @@ const ProfileSection = () => {
         setLoading(false);
       }
     };
-    
+
     fetchTransactions();
     fetchUser();
   }, []);
@@ -165,64 +166,66 @@ const ProfileSection = () => {
     price: number;
     amount: number;
   };
-  
+
   const convertToCSV = (data: ExportRow[]): string => {
     if (!data || !data.length) {
-      return '';
+      return "";
     }
-  
+
     const headers = Object.keys(data[0]);
-  
+
     const csvRows = [
-      headers.join(','), // header row
+      headers.join(","), // header row
       ...data.map((row) =>
         headers
           .map((field) => {
             const cell = (row as Record<string, any>)[field];
-            return typeof cell === 'string' && (cell.includes(',') || cell.includes('\n'))
+            return typeof cell === "string" &&
+              (cell.includes(",") || cell.includes("\n"))
               ? `"${cell.replace(/"/g, '""')}"`
               : cell;
           })
-          .join(',')
-      )
+          .join(",")
+      ),
     ];
-  
-    return csvRows.join('\n');
+
+    return csvRows.join("\n");
   };
-  
+
   const downloadCSV = (csvData: string, filename: string): void => {
-    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
+    const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
     const url = URL.createObjectURL(blob);
-  
-    link.setAttribute('href', url);
-    link.setAttribute('download', filename);
+
+    link.setAttribute("href", url);
+    link.setAttribute("download", filename);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
-  
+
   const handleExport = async (): Promise<void> => {
     const filtered = filterByPeriod(transactions, selectedPeriod);
-  
+
     const csv = convertToCSV(
-      filtered.map((e): ExportRow => ({
-        id: e.id,
-        medicineName: e.medicine.name,
-        transactionDate: e.createdAt,
-        price: e.price,
-        amount: e.amount
-      }))
+      filtered.map(
+        (e): ExportRow => ({
+          id: e.id,
+          medicineName: e.medicine.name,
+          transactionDate: e.createdAt,
+          price: e.price,
+          amount: e.amount,
+        })
+      )
     );
-  
+
     if (!csv) {
-      alert('No data available to export.');
+      alert("No data available to export.");
       return;
     }
-  
-    downloadCSV(csv, 'exported_data.csv');
+
+    downloadCSV(csv, "exported_data.csv");
   };
-  
 
   return (
     <div
@@ -329,7 +332,7 @@ const ProfileSection = () => {
           <h4 className="font-semibold mb-2">Time Period</h4>
           <button
             onClick={() => setPeriodOpen(!periodOpen)}
-            className="flex items-center justify-center mx-auto px-4 py-2 bg-gray-200 rounded"
+            className="cursor-pointer flex items-center justify-center mx-auto px-4 py-2 bg-gray-200 rounded"
           >
             {selectedPeriod}
             <FiChevronDown
@@ -358,7 +361,10 @@ const ProfileSection = () => {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 mt-6">
-          <button onClick={handleExport} className="cursor-pointer hover:opacity-70 flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 text-white rounded-lg w-full">
+          <button
+            onClick={handleExport}
+            className="cursor-pointer hover:opacity-70 flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 text-white rounded-lg w-full"
+          >
             <FiDownload />
             Download
           </button>
@@ -369,6 +375,13 @@ const ProfileSection = () => {
             See Details
           </button>
         </div>
+        <button
+          // onClick={handle??}
+          className="cursor-pointer my-4 hover:opacity-70 flex items-center justify-center gap-2 px-4 py-2 bg-[#6B6EAC] text-white rounded-lg w-full"
+        >
+          <FiUpload />
+          Import Data
+        </button>
       </div>
     </div>
   );
